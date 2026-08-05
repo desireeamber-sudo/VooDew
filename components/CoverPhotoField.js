@@ -25,7 +25,7 @@ export default function CoverPhotoField({ uri, onChange, testID = "cover-photo" 
       const result = await pickerFn();
       if (result.status === "denied") {
         setNotice(
-          `VooDew needs ${sourceLabel} access to add a cover photo. You can allow this in your device Settings, or try the other option instead.`
+          `Trip VooDew needs ${sourceLabel} access to add a cover photo. You can allow this in your device Settings, or try the other option instead.`
         );
         return;
       }
@@ -71,7 +71,7 @@ export default function CoverPhotoField({ uri, onChange, testID = "cover-photo" 
 
       {notice ? <Text style={styles.notice}>{notice}</Text> : null}
 
-      <View style={styles.actionRow}>
+      <View style={styles.actionRow} testID={`${testID}-actions`}>
         <AppButton
           title={uri ? "Retake Photo" : "Take Photo"}
           variant="secondary"
@@ -125,12 +125,12 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   notice: { ...typography.caption, color: colors.danger, marginBottom: 10 },
-  // Stacked full-width, not side-by-side: "Choose Different Photo" is long
-  // enough that a two-up row with a fixed-height button clips its label on
-  // narrow screens (the button's height doesn't grow for wrapped text).
-  // Full-width rows guarantee the longest label always fits.
-  actionRow: { flexDirection: "column" },
-  actionButton: { width: "100%", marginBottom: 8 },
+  // Side-by-side, equal width: AppButton now uses minHeight instead of a
+  // fixed height (see components/AppButton.js), so a longer wrapped label
+  // like "Choose Different Photo" grows the button instead of clipping --
+  // safe to go two-up here instead of stacking full-width rows.
+  actionRow: { flexDirection: "row", gap: 10, marginBottom: 8 },
+  actionButton: { flex: 1 },
   removeRow: { flexDirection: "row", alignItems: "center", alignSelf: "flex-start", marginTop: 2 },
   removeText: { ...typography.caption, color: colors.danger, marginLeft: 6 }
 });

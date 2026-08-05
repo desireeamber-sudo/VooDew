@@ -10,7 +10,7 @@ import {
   Alert,
   Pressable
 } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams, Stack } from "expo-router";
 import { colors } from "../../constants/colors";
 import { typography } from "../../constants/typography";
 import { EVENT_TYPES, TRAVEL_MODES } from "../../utils/checklistTemplates";
@@ -30,6 +30,7 @@ import Chip from "../../components/Chip";
 import DateField from "../../components/DateField";
 import PlaceSearchField from "../../components/PlaceSearchField";
 import CoverPhotoField from "../../components/CoverPhotoField";
+import CollapsibleSection from "../../components/CollapsibleSection";
 
 // Requirement 6: the venue/location field's label (and whether it's framed
 // as optional) depends on event type. For cruises specifically, the search
@@ -62,6 +63,24 @@ function getTransportQuestionLabel(travelBehavior) {
   return "How are you getting there?";
 }
 
+// Shared shape used both to build the payload actually saved to Firestore
+// (handleSave) and to build a comparable snapshot of the trip as it was
+// originally loaded (buildOriginalPayload) -- the sticky save button's
+// "disabled until changed" state in edit mode is just a structural
+// comparison of these two, so keeping both built from the exact same shape
+// is what makes that comparison meaningful instead of accidentally always
+// (or never) true.
+function normalizePayloadForCompare(payload) {
+  // travelerIds' order can differ (toggle order vs. however the trip was
+  // originally saved) without the *set* of travelers actually having
+  // changed -- sorted here so reordering alone never reads as "dirty".
+  return JSON.stringify({ ...payload, travelerIds: [...payload.travelerIds].sort() });
+}
+
+function isEqualPayload(a, b) {
+  return normalizePayloadForCompare(a) === normalizePayloadForCompare(b);
+}
+
 // Create / Edit Trip. If an `editId` query param is present, the screen
 // loads that trip and saves via updateTrip instead of createTrip -- the
 // class project's "Create / Edit Trip" screen is intentionally one screen.
@@ -83,6 +102,12 @@ export default function CreateTripScreen() {
   // it has succeeded.
   const [coverPhotoUri, setCoverPhotoUri] = useState(null);
   const [originalCoverPhotoUri, setOriginalCoverPhotoUri] = useState(null);
+  // Snapshot of the trip exactly as loaded, in the same shape buildTripPayload()
+  // produces from current form state -- lets the sticky save button stay
+  // disabled in edit mode until something has actually changed. Stays null
+  // for a brand new trip (there's nothing to compare against, and create
+  // mode's disabled state doesn't use it -- see saveDisabled below).
+  const [originalPayload, setOriginalPayload] = useState(null);
   const [eventType, setEventType] = useState("inTownConcert");
   const [travelRequired, setTravelRequired] = useState(false);
   const [travelMode, setTravelMode] = useState(null);
@@ -122,6 +147,18 @@ export default function CreateTripScreen() {
   // once the user has picked "Traveling".
   const showsTransportChoices =
     travelBehavior === "always" || travelBehavior === "cruise" || (travelBehavior === "ask" && travelRequired);
+  // The Travel section has nothing to show for "never" (e.g. In-Town
+  // Concert) -- collapsing it away entirely for that case *is* the
+  // "Travel section may collapse when not required" behavior, rather than
+  // a separate expand/collapse control on top of it.
+  const showsTravelSection = travelBehavior !== "never";
+  // Editing an existing trip means the user is more likely revisiting one
+  // specific thing than reviewing the whole form top to bottom -- Event
+  // Type / Travelers / Notes default collapsed (with a summary still
+  // visible) so Save Changes is reachable without scrolling past sections
+  // that already have a value. Create mode has nothing to summarize yet,
+  // so everything starts expanded and visible.
+  const sectionDefaultExpanded = !isEditing;
 
   useEffect(() => {
     const unsubscribe = subscribeToTravelers(setTravelers, () => {});
@@ -151,6 +188,25 @@ export default function CreateTripScreen() {
         setPlaceId(trip.placeId ?? null);
         setNotes(trip.notes || "");
         setSelectedTravelerIds(trip.travelerIds || []);
+        setOriginalPayload({
+          title: (trip.title || "").trim(),
+          eventType: trip.eventType || "inTownConcert",
+          travelRequired: Boolean(trip.travelRequired),
+          travelMode: trip.travelMode || null,
+          startDate: trip.startDate || "",
+          endDate: trip.endDate || trip.startDate || "",
+          destination: (trip.destination || "").trim(),
+          coverPhotoUri: trip.coverPhotoUri || null,
+          cruiseLine: (trip.cruiseLine || "").trim(),
+          shipName: (trip.shipName || "").trim(),
+          venue: (trip.venue || "").trim(),
+          address: (trip.address || "").trim(),
+          latitude: trip.latitude ?? null,
+          longitude: trip.longitude ?? null,
+          placeId: trip.placeId ?? null,
+          notes: (trip.notes || "").trim(),
+          travelerIds: trip.travelerIds || []
+        });
       }
       setLoadingTrip(false);
     })();
@@ -198,24 +254,12 @@ export default function CreateTripScreen() {
     setNewTravelerName("");
   }
 
-  async function handleSave() {
-    const fieldErrors = validateFields(
-      { title, startDate },
-      {
-        title: { check: isRequired, message: "Trip title is required." },
-        startDate: { check: isRequired, message: "Start date is required." }
-      }
-    );
-    if (showsTransportChoices && !travelMode) {
-      fieldErrors.travelMode = "Choose a transportation option -- this customizes your checklist.";
-    }
-    if (!isEndDateValid(startDate, endDate)) {
-      fieldErrors.endDate = "End date can't be before the start date.";
-    }
-    setErrors(fieldErrors);
-    if (Object.keys(fieldErrors).length > 0) return;
-
-    const tripData = {
+  // Same payload shape handleSave sends to Firestore, factored out so the
+  // live "has this changed?" check below (used to gate the sticky save
+  // button in edit mode) can never silently drift out of sync with what
+  // actually gets saved.
+  function buildTripPayload() {
+    return {
       title: title.trim(),
       eventType,
       travelRequired: resolveTravelRequired(travelBehavior, travelRequired),
@@ -234,6 +278,45 @@ export default function CreateTripScreen() {
       notes: notes.trim(),
       travelerIds: selectedTravelerIds
     };
+  }
+
+  // Mirrors handleSave's own required-field checks, kept in sync
+  // deliberately (not derived from validateFields' output directly) so the
+  // sticky button's disabled state never needs to run validateFields --
+  // and therefore never needs to set/clear `errors` -- just to decide
+  // whether it should be interactive.
+  const requiredFieldsValid =
+    isRequired(title) &&
+    isRequired(startDate) &&
+    isEndDateValid(startDate, endDate) &&
+    (!showsTransportChoices || Boolean(travelMode));
+
+  // Create mode has nothing to compare against -- only whether required
+  // fields are filled gates it. Edit mode additionally stays disabled
+  // until the form actually differs from the trip as it was loaded, so
+  // "Save Changes" never implies there's something new to save when there
+  // isn't.
+  const hasChanges = !isEditing || !originalPayload || !isEqualPayload(buildTripPayload(), originalPayload);
+  const saveDisabled = !requiredFieldsValid || (isEditing && !hasChanges);
+
+  async function handleSave() {
+    const fieldErrors = validateFields(
+      { title, startDate },
+      {
+        title: { check: isRequired, message: "Trip title is required." },
+        startDate: { check: isRequired, message: "Start date is required." }
+      }
+    );
+    if (showsTransportChoices && !travelMode) {
+      fieldErrors.travelMode = "Choose a transportation option -- this customizes your checklist.";
+    }
+    if (!isEndDateValid(startDate, endDate)) {
+      fieldErrors.endDate = "End date can't be before the start date.";
+    }
+    setErrors(fieldErrors);
+    if (Object.keys(fieldErrors).length > 0) return;
+
+    const tripData = buildTripPayload();
 
     setSaving(true);
     try {
@@ -246,9 +329,30 @@ export default function CreateTripScreen() {
         if (originalCoverPhotoUri && originalCoverPhotoUri !== coverPhotoUri) {
           await deleteCoverPhoto(originalCoverPhotoUri);
         }
-        router.replace(`/trips/${editId}`);
+        // Edit is always reached by *pushing* from that trip's own
+        // Dashboard (the pencil icon in app/trips/[tripId]/index.js), so
+        // the existing Dashboard is already directly underneath this
+        // screen on the stack. router.back() pops Edit off and reveals it
+        // directly -- router.replace() here would instead push a *second*
+        // Dashboard on top of the first, leaving a duplicate entry that
+        // needed Back pressed twice to reach Home. The Dashboard already
+        // has the fresh data by the time we get there too, since it holds
+        // a live subscribeToTrip() listener that's been running the whole
+        // time Edit was open on top of it.
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          // Fallback for the rare case Edit was reached some other way
+          // (e.g. a deep link straight into edit mode) where there's
+          // nothing to go back to -- replace still avoids leaving Edit
+          // itself in the stack.
+          router.replace(`/trips/${editId}`);
+        }
       } else {
         const newId = await createTrip(tripData);
+        // Create is reached by pushing from Home, so there's no existing
+        // Dashboard to go back to -- replace is correct here, and avoids
+        // leaving the blank Create screen in the stack behind the new one.
         router.replace(`/trips/${newId}`);
       }
     } catch (e) {
@@ -258,84 +362,108 @@ export default function CreateTripScreen() {
     }
   }
 
+  const screenTitle = isEditing ? "Edit Trip" : "Create Trip";
+
   if (loadingTrip) {
     return (
       <View style={styles.loadingContainer}>
+        <Stack.Screen options={{ title: screenTitle }} />
         <ActivityIndicator color={colors.primaryPink} size="large" />
       </View>
     );
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <Stack.Screen options={{ title: screenTitle }} />
+      <ScrollView style={styles.flex} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <Text style={styles.sectionHeader}>Trip Details</Text>
         <AppInput label="Trip Title" value={title} onChangeText={setTitle} placeholder="e.g. Karaoke Night Downtown" error={errors.title} />
+
+        <CollapsibleSection
+          title="Event Type"
+          subtitle={selectedEventType ? selectedEventType.label : undefined}
+          defaultExpanded={sectionDefaultExpanded}
+          testID="event-type-section-toggle"
+        >
+          <View style={styles.chipRow}>
+            {EVENT_TYPES.map((type) => (
+              <Chip
+                key={type.key}
+                label={type.label}
+                selected={eventType === type.key}
+                onPress={() => {
+                  setEventType(type.key);
+                  setTravelMode(null);
+                  setTravelRequired(type.travelBehavior === "always" || type.travelBehavior === "cruise");
+                }}
+              />
+            ))}
+          </View>
+        </CollapsibleSection>
+
+        <View style={styles.dateRow} testID="date-row">
+          <View style={styles.dateColumn}>
+            <DateField
+              label="Start Date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              error={errors.startDate}
+              testID="start-date"
+            />
+          </View>
+          <View style={styles.dateColumn}>
+            <DateField
+              label="End Date (optional)"
+              value={endDate}
+              onChange={setEndDate}
+              onClear={() => setEndDate("")}
+              minimumDate={startDate}
+              placeholder="Same as start"
+              error={errors.endDate}
+              testID="end-date"
+            />
+          </View>
+        </View>
 
         <CoverPhotoField uri={coverPhotoUri} onChange={setCoverPhotoUri} testID="cover-photo" />
 
-        <Text style={styles.sectionLabel}>Event Type</Text>
-        <View style={styles.chipRow}>
-          {EVENT_TYPES.map((type) => (
-            <Chip
-              key={type.key}
-              label={type.label}
-              selected={eventType === type.key}
-              onPress={() => {
-                setEventType(type.key);
-                setTravelMode(null);
-                setTravelRequired(type.travelBehavior === "always" || type.travelBehavior === "cruise");
-              }}
-            />
-          ))}
-        </View>
-
-        {travelBehavior === "ask" && (
+        {showsTravelSection && (
           <>
-            <Text style={styles.sectionLabel}>Local or Traveling?</Text>
-            <View style={styles.chipRow}>
-              <Chip
-                label="Local"
-                selected={!travelRequired}
-                onPress={() => {
-                  setTravelRequired(false);
-                  setTravelMode(null);
-                }}
-              />
-              <Chip label="Traveling" selected={travelRequired} onPress={() => setTravelRequired(true)} />
-            </View>
+            <Text style={styles.sectionHeader}>Travel</Text>
+            {travelBehavior === "ask" && (
+              <>
+                <Text style={styles.sectionLabel}>Local or Traveling?</Text>
+                <View style={styles.chipRow}>
+                  <Chip
+                    label="Local"
+                    selected={!travelRequired}
+                    onPress={() => {
+                      setTravelRequired(false);
+                      setTravelMode(null);
+                    }}
+                  />
+                  <Chip label="Traveling" selected={travelRequired} onPress={() => setTravelRequired(true)} />
+                </View>
+              </>
+            )}
+
+            {showsTransportChoices && (
+              <>
+                <Text style={styles.sectionLabel}>{getTransportQuestionLabel(travelBehavior)}</Text>
+                <Text style={styles.helperText}>This choice customizes your checklist.</Text>
+                <View style={styles.chipRow}>
+                  {TRAVEL_MODES.map((mode) => (
+                    <Chip key={mode.key} label={mode.label} selected={travelMode === mode.key} onPress={() => setTravelMode(mode.key)} />
+                  ))}
+                </View>
+                {errors.travelMode ? <Text style={styles.error}>{errors.travelMode}</Text> : null}
+              </>
+            )}
           </>
         )}
 
-        {showsTransportChoices && (
-          <>
-            <Text style={styles.sectionLabel}>{getTransportQuestionLabel(travelBehavior)}</Text>
-            <Text style={styles.helperText}>This choice customizes your checklist.</Text>
-            <View style={styles.chipRow}>
-              {TRAVEL_MODES.map((mode) => (
-                <Chip key={mode.key} label={mode.label} selected={travelMode === mode.key} onPress={() => setTravelMode(mode.key)} />
-              ))}
-            </View>
-            {errors.travelMode ? <Text style={styles.error}>{errors.travelMode}</Text> : null}
-          </>
-        )}
-
-        <DateField
-          label="Start Date"
-          value={startDate}
-          onChange={handleStartDateChange}
-          error={errors.startDate}
-          testID="start-date"
-        />
-        <DateField
-          label="End Date (optional -- defaults to start date)"
-          value={endDate}
-          onChange={setEndDate}
-          onClear={() => setEndDate("")}
-          minimumDate={startDate}
-          placeholder="Same as start date"
-          error={errors.endDate}
-          testID="end-date"
-        />
+        <Text style={styles.sectionHeader}>Location</Text>
         <AppInput
           label={getDestinationFieldLabel(eventType)}
           value={destination}
@@ -368,37 +496,69 @@ export default function CreateTripScreen() {
           />
         )}
 
-        <AppInput label="Notes (optional)" value={notes} onChangeText={setNotes} placeholder="Anything else worth remembering" multiline />
-
-        <Text style={styles.sectionLabel}>Travelers</Text>
-        <View style={styles.chipRow}>
-          {travelers.map((t) => (
-            <Chip key={t.id} label={t.name} selected={selectedTravelerIds.includes(t.id)} onPress={() => toggleTraveler(t.id)} />
-          ))}
-        </View>
-        <View style={styles.quickAddRow}>
-          <View style={{ flex: 1 }}>
-            <AppInput label="Add a traveler" value={newTravelerName} onChangeText={setNewTravelerName} placeholder="Traveler name" />
+        <CollapsibleSection title="Travelers" defaultExpanded={sectionDefaultExpanded} testID="travelers-section-toggle">
+          <View style={styles.chipRow}>
+            {travelers.map((t) => (
+              <Chip key={t.id} label={t.name} selected={selectedTravelerIds.includes(t.id)} onPress={() => toggleTraveler(t.id)} />
+            ))}
           </View>
-          <AppButton title="Add" variant="secondary" onPress={handleQuickAddTraveler} style={styles.quickAddButton} />
-        </View>
+          <View style={styles.quickAddRow}>
+            <View style={{ flex: 1 }}>
+              <AppInput label="Add a traveler" value={newTravelerName} onChangeText={setNewTravelerName} placeholder="Traveler name" />
+            </View>
+            <AppButton title="Add" variant="secondary" onPress={handleQuickAddTraveler} style={styles.quickAddButton} />
+          </View>
+        </CollapsibleSection>
 
-        <AppButton title={isEditing ? "Save Changes" : "Create Trip"} onPress={handleSave} loading={saving} style={styles.saveButton} />
+        <CollapsibleSection title="Notes" defaultExpanded={sectionDefaultExpanded} testID="notes-section-toggle">
+          <AppInput label="Notes (optional)" value={notes} onChangeText={setNotes} placeholder="Anything else worth remembering" multiline />
+        </CollapsibleSection>
       </ScrollView>
+
+      <View style={styles.bottomBar}>
+        <AppButton
+          title={isEditing ? "Save Changes" : "Create Trip"}
+          onPress={handleSave}
+          loading={saving}
+          disabled={saveDisabled}
+          testID="save-trip-button"
+        />
+      </View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   loadingContainer: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.lightGray },
-  content: { padding: 20, paddingBottom: 60 },
+  content: { padding: 20, paddingBottom: 32 },
+  sectionHeader: {
+    ...typography.sectionTitle,
+    fontSize: 16,
+    color: colors.black,
+    marginBottom: 10,
+    marginTop: 6
+  },
   sectionLabel: { ...typography.cardTitle, fontSize: 15, color: colors.black, marginBottom: 8, marginTop: 4 },
   chipRow: { flexDirection: "row", flexWrap: "wrap", marginBottom: 12 },
   helperText: { ...typography.caption, color: colors.darkGray, marginBottom: 8 },
   error: { ...typography.caption, color: colors.danger, marginBottom: 8 },
+  dateRow: { flexDirection: "row", gap: 12 },
+  dateColumn: { flex: 1 },
   quickAddRow: { flexDirection: "row", alignItems: "flex-end" },
   quickAddButton: { marginBottom: 16, marginLeft: 10, minWidth: 80 },
-  saveButton: { marginTop: 12 },
   manualToggle: { alignSelf: "flex-start", marginTop: -8, marginBottom: 16 },
-  manualToggleText: { ...typography.caption, color: colors.primaryPink }
+  manualToggleText: { ...typography.caption, color: colors.primaryPink },
+  // Sits below the ScrollView as a plain sibling in a flex column, not
+  // absolutely positioned over it -- it always occupies its own space at
+  // the bottom of the screen (the "sticky" part) without ever overlapping
+  // scrollable content, so there's no field it could visually cover.
+  bottomBar: {
+    backgroundColor: colors.white,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: Platform.OS === "ios" ? 28 : 16
+  }
 });

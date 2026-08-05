@@ -31,7 +31,7 @@ export async function scheduleLocalReminder(title, body, date) {
 
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
-      name: "VooDew reminders",
+      name: "Trip VooDew reminders",
       importance: Notifications.AndroidImportance.HIGH
     });
   }

@@ -7,7 +7,8 @@ import React from "react";
 const router = {
   push: jest.fn(),
   replace: jest.fn(),
-  back: jest.fn()
+  back: jest.fn(),
+  canGoBack: jest.fn(() => true)
 };
 
 export const useRouter = jest.fn(() => router);
@@ -21,6 +22,8 @@ export function Link({ children }) {
 export function Stack({ children }) {
   return children || null;
 }
-Stack.Screen = function StackScreen() {
-  return null;
-};
+// jest.fn() (not a plain function) so tests can assert on the `options`
+// prop a screen passes it -- e.g. Create/Edit Trip's dynamic header title.
+// Still renders null either way; nothing about the mocked navigator itself
+// changes.
+Stack.Screen = jest.fn(() => null);

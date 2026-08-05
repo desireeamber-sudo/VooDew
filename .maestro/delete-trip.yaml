@@ -16,4 +16,4 @@ appId: com.voodew.app
 
 # Back on Home -- either the list no longer shows that trip, or (if it was
 # the only trip) the empty state is visible again.
-- assertVisible: "VooDew"
+- assertVisible: "Trip VooDew"

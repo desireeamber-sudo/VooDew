@@ -20,4 +20,12 @@ describe("Home screen", () => {
     expect(images.length).toBeGreaterThan(0);
     expect(images[0].props.accessibilityLabel).toBe("Trip VooDew logo");
   });
+
+  // Branding consistency: the header used to read the bare "VooDew" -- now
+  // matches the app name used everywhere else ("Trip VooDew").
+  test("renders 'Trip VooDew' as the app title, not the old 'VooDew'", () => {
+    render(<HomeScreen />);
+    expect(screen.getByText("Trip VooDew")).toBeTruthy();
+    expect(screen.queryByText("VooDew")).toBeNull();
+  });
 });

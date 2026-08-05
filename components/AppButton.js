@@ -52,7 +52,11 @@ export default function AppButton({
 
 const styles = StyleSheet.create({
   base: {
-    height: 50,
+    // minHeight (not height): a fixed height clips a Text label that wraps
+    // to two lines (e.g. a compact side-by-side button with a long title)
+    // instead of letting the button grow to fit it. Every existing button
+    // still renders at the same 50 visual height since none of them wrap.
+    minHeight: 50,
     borderRadius: 14,
     paddingHorizontal: 20,
     backgroundColor: colors.primaryPink,

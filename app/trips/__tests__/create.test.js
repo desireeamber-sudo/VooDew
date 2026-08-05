@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams, Stack } from "expo-router";
 import CreateTripScreen from "../create";
 import { createTrip, updateTrip, getTrip, subscribeToTravelers, createTraveler } from "../../../services/tripService";
 import { requestLibraryPhoto, persistCoverPhoto, deleteCoverPhoto } from "../../../services/imageService";
@@ -30,6 +30,9 @@ describe("Create/Edit Trip screen", () => {
     useLocalSearchParams.mockReturnValue({});
     useRouter().push.mockClear();
     useRouter().replace.mockClear();
+    useRouter().back.mockClear();
+    useRouter().canGoBack.mockClear().mockReturnValue(true);
+    Stack.Screen.mockClear();
     requestLibraryPhoto.mockReset();
     persistCoverPhoto.mockReset().mockResolvedValue("file:///mock-documents/tripCoverPhotos/new.jpg");
     deleteCoverPhoto.mockReset().mockResolvedValue(undefined);
@@ -37,6 +40,120 @@ describe("Create/Edit Trip screen", () => {
 
   afterEach(() => {
     jest.useRealTimers();
+  });
+
+  describe("Screen polish: dynamic title, sticky button, dates row", () => {
+    function lastStackScreenTitle() {
+      const calls = Stack.Screen.mock.calls;
+      return calls[calls.length - 1][0].options.title;
+    }
+
+    test("screen title is 'Create Trip' when creating a new trip", () => {
+      render(<CreateTripScreen />);
+      expect(lastStackScreenTitle()).toBe("Create Trip");
+    });
+
+    test("screen title is 'Edit Trip' when editing an existing trip", async () => {
+      useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+      getTrip.mockResolvedValue({
+        id: "trip-1",
+        title: "Existing Trip",
+        eventType: "inTownConcert",
+        travelRequired: false,
+        startDate: "2026-08-10",
+        endDate: "",
+        destination: "",
+        venue: "",
+        address: "",
+        notes: "",
+        travelerIds: []
+      });
+      render(<CreateTripScreen />);
+      // The title reflects edit mode immediately -- it only depends on the
+      // editId param being present, not on the trip data finishing its load.
+      expect(lastStackScreenTitle()).toBe("Edit Trip");
+      await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+    });
+
+    test("the sticky save button reads 'Create Trip' in create mode and 'Save Changes' in edit mode", async () => {
+      const { unmount } = render(<CreateTripScreen />);
+      expect(screen.getByTestId("save-trip-button")).toBeTruthy();
+      expect(screen.getByText("Create Trip")).toBeTruthy();
+      unmount();
+
+      useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+      getTrip.mockResolvedValue({
+        id: "trip-1",
+        title: "Existing Trip",
+        eventType: "inTownConcert",
+        travelRequired: false,
+        startDate: "2026-08-10",
+        endDate: "",
+        destination: "",
+        venue: "",
+        address: "",
+        notes: "",
+        travelerIds: []
+      });
+      render(<CreateTripScreen />);
+      await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+      expect(screen.getByTestId("save-trip-button")).toBeTruthy();
+      expect(screen.getByText("Save Changes")).toBeTruthy();
+    });
+
+    test("Start Date and End Date are displayed side by side in one row", () => {
+      render(<CreateTripScreen />);
+      const row = screen.getByTestId("date-row");
+      const flatStyle = Array.isArray(row.props.style) ? Object.assign({}, ...row.props.style) : row.props.style;
+      expect(flatStyle.flexDirection).toBe("row");
+      // Both fields are inside that same row.
+      expect(screen.getByTestId("start-date")).toBeTruthy();
+      expect(screen.getByTestId("end-date")).toBeTruthy();
+    });
+  });
+
+  describe("Screen polish: collapsible sections default by mode", () => {
+    test("create mode: Event Type, Travelers, and Notes all start expanded", () => {
+      render(<CreateTripScreen />);
+      expect(screen.getByTestId("event-type-section-toggle").props.accessibilityState.expanded).toBe(true);
+      expect(screen.getByTestId("travelers-section-toggle").props.accessibilityState.expanded).toBe(true);
+      expect(screen.getByTestId("notes-section-toggle").props.accessibilityState.expanded).toBe(true);
+      // The event type chips are already visible -- no tap needed.
+      expect(screen.getByText("Cruise")).toBeTruthy();
+    });
+
+    test("edit mode: Event Type, Travelers, and Notes all start collapsed, with Event Type's subtitle showing the loaded trip's type", async () => {
+      useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+      getTrip.mockResolvedValue({
+        id: "trip-1",
+        title: "Existing Trip",
+        eventType: "cruise",
+        travelRequired: true,
+        travelMode: "flying",
+        startDate: "2026-08-10",
+        endDate: "",
+        destination: "",
+        venue: "",
+        address: "",
+        notes: "",
+        travelerIds: []
+      });
+
+      render(<CreateTripScreen />);
+      await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+
+      expect(screen.getByTestId("event-type-section-toggle").props.accessibilityState.expanded).toBe(false);
+      expect(screen.getByTestId("travelers-section-toggle").props.accessibilityState.expanded).toBe(false);
+      expect(screen.getByTestId("notes-section-toggle").props.accessibilityState.expanded).toBe(false);
+      // Collapsed, so the only "Cruise" on screen is the subtitle -- the
+      // chip itself isn't rendered until the section is expanded.
+      expect(screen.getByText("Cruise")).toBeTruthy();
+
+      fireEvent.press(screen.getByTestId("event-type-section-toggle"));
+      expect(screen.getByTestId("event-type-section-toggle").props.accessibilityState.expanded).toBe(true);
+      // Now both the subtitle and the (now-visible) selected chip say "Cruise".
+      expect(screen.getAllByText("Cruise").length).toBeGreaterThanOrEqual(2);
+    });
   });
 
   test("defaults to In-Town Concert with no transportation question shown", () => {
@@ -76,28 +193,32 @@ describe("Create/Edit Trip screen", () => {
     );
   });
 
-  test("blocks save and shows an error when the title is empty", async () => {
+  // The sticky save button is now disabled (not just validated-on-press)
+  // whenever a required field is missing -- "Create Trip" no longer
+  // fires handleSave (and therefore never shows an inline error) while
+  // the title is empty, since there's nothing to press.
+  test("Create Trip is disabled while the title is empty, and enables once one is entered", () => {
     render(<CreateTripScreen />);
-    fireEvent.press(screen.getByText("Create Trip"));
-    await waitFor(() => expect(screen.getByText("Trip title is required.")).toBeTruthy());
-    expect(createTrip).not.toHaveBeenCalled();
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(true);
+
+    fireEvent.changeText(screen.getByPlaceholderText(TITLE_PLACEHOLDER), "Trivia Night");
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(false);
   });
 
-  test("selecting Out-of-Town Concert requires a transportation choice before saving", async () => {
+  test("selecting Out-of-Town Concert requires a transportation choice before Create Trip is enabled", async () => {
     render(<CreateTripScreen />);
     fireEvent.changeText(screen.getByPlaceholderText(TITLE_PLACEHOLDER), "Weekend Trip");
     fireEvent.press(screen.getByText("Out-of-Town Concert"));
 
     expect(screen.getByText("How are you getting there?")).toBeTruthy();
     expect(screen.getByText("This choice customizes your checklist.")).toBeTruthy();
-
-    fireEvent.press(screen.getByText("Create Trip"));
-    await waitFor(() =>
-      expect(screen.getByText("Choose a transportation option -- this customizes your checklist.")).toBeTruthy()
-    );
-    expect(createTrip).not.toHaveBeenCalled();
+    // Title is filled, but a transportation choice is still required for
+    // this event type and hasn't been made yet -- disabled.
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(true);
 
     fireEvent.press(screen.getByText("Flying"));
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(false);
+
     fireEvent.press(screen.getByText("Create Trip"));
     await waitFor(() => expect(createTrip).toHaveBeenCalledTimes(1));
     expect(createTrip.mock.calls[0][0].travelMode).toBe("flying");
@@ -210,11 +331,129 @@ describe("Create/Edit Trip screen", () => {
     render(<CreateTripScreen />);
     await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
 
+    // Save Changes stays disabled until something actually changes (see
+    // the dedicated "disabled until changed" test below) -- edit a field
+    // first so this test can exercise the actual save.
+    fireEvent.changeText(screen.getByDisplayValue("Existing Trip"), "Existing Trip Updated");
     fireEvent.press(screen.getByText("Save Changes"));
     await waitFor(() =>
-      expect(updateTrip).toHaveBeenCalledWith("trip-1", expect.objectContaining({ title: "Existing Trip" }))
+      expect(updateTrip).toHaveBeenCalledWith("trip-1", expect.objectContaining({ title: "Existing Trip Updated" }))
     );
     expect(createTrip).not.toHaveBeenCalled();
+  });
+
+  // Requirement: in edit mode, Save Changes stays disabled until the form
+  // differs from the trip as it was loaded -- pressing it with no changes
+  // made should not be possible, and should never call updateTrip.
+  test("edit mode: Save Changes is disabled until the form differs from the loaded trip", async () => {
+    useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+    getTrip.mockResolvedValue({
+      id: "trip-1",
+      title: "Existing Trip",
+      eventType: "inTownConcert",
+      travelRequired: false,
+      startDate: "2026-08-10",
+      endDate: "",
+      destination: "",
+      venue: "",
+      address: "",
+      notes: "",
+      travelerIds: []
+    });
+
+    render(<CreateTripScreen />);
+    await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+
+    const button = screen.getByTestId("save-trip-button");
+    expect(button.props.accessibilityState.disabled).toBe(true);
+    // AppButton's own implementation never wires onPress through while
+    // disabled (see components/AppButton.js), so a disabled button here
+    // is sufficient proof updateTrip can't be reached -- not re-asserted
+    // via a press.
+    expect(updateTrip).not.toHaveBeenCalled();
+
+    fireEvent.changeText(screen.getByDisplayValue("Existing Trip"), "Existing Trip Updated");
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(false);
+
+    // Changing it back to exactly the original value re-disables it --
+    // "differs from the loaded trip" means differs right now, not "was
+    // ever edited".
+    fireEvent.changeText(screen.getByDisplayValue("Existing Trip Updated"), "Existing Trip");
+    expect(screen.getByTestId("save-trip-button").props.accessibilityState.disabled).toBe(true);
+  });
+
+  // Regression test: Edit is always reached by *pushing* from that trip's
+  // own Dashboard (app/trips/[tripId]/index.js's pencil icon), so the
+  // Dashboard is already directly underneath Edit on the navigation stack.
+  // Saving used to call router.replace(`/trips/${editId}`), which swaps
+  // Edit for a *second* Dashboard screen instead of revealing the one
+  // already beneath it -- leaving a duplicate entry that needed Back
+  // pressed twice (Dashboard -> Dashboard -> Home) instead of once
+  // (Dashboard -> Home). router.back() pops Edit off and reveals the
+  // existing Dashboard directly, so there's nothing left to duplicate.
+  test("Home -> Dashboard -> Edit -> Save returns to the existing Dashboard via back(), not a new pushed/replaced one", async () => {
+    useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+    getTrip.mockResolvedValue({
+      id: "trip-1",
+      title: "Existing Trip",
+      eventType: "inTownConcert",
+      travelRequired: false,
+      startDate: "2026-08-10",
+      endDate: "",
+      destination: "",
+      venue: "",
+      address: "",
+      notes: "",
+      travelerIds: []
+    });
+
+    render(<CreateTripScreen />);
+    await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+
+    // Save Changes stays disabled until something changes -- edit a field
+    // first so this test can actually reach the save/navigation path.
+    fireEvent.changeText(screen.getByDisplayValue("Existing Trip"), "Existing Trip Updated");
+    fireEvent.press(screen.getByText("Save Changes"));
+    await waitFor(() => expect(updateTrip).toHaveBeenCalledTimes(1));
+
+    // One Back action (router.back()) is how a duplicate Dashboard entry is
+    // avoided -- it pops Edit off the stack and reveals the Dashboard
+    // that's already underneath it, so Home is exactly one Back away from
+    // that Dashboard, with no extra entry in between.
+    expect(useRouter().back).toHaveBeenCalledTimes(1);
+    // Neither push nor replace should navigate to a trips/<id> dashboard
+    // route here -- either one would create the second, duplicate entry
+    // this test exists to catch.
+    expect(useRouter().push).not.toHaveBeenCalledWith(expect.stringContaining("/trips/trip-1"));
+    expect(useRouter().replace).not.toHaveBeenCalledWith(expect.stringContaining("/trips/trip-1"));
+  });
+
+  test("falls back to router.replace() when there's nothing to go back to (e.g. Edit reached without a Dashboard beneath it)", async () => {
+    useRouter().canGoBack.mockReturnValue(false);
+    useLocalSearchParams.mockReturnValue({ editId: "trip-1" });
+    getTrip.mockResolvedValue({
+      id: "trip-1",
+      title: "Existing Trip",
+      eventType: "inTownConcert",
+      travelRequired: false,
+      startDate: "2026-08-10",
+      endDate: "",
+      destination: "",
+      venue: "",
+      address: "",
+      notes: "",
+      travelerIds: []
+    });
+
+    render(<CreateTripScreen />);
+    await waitFor(() => expect(screen.getByDisplayValue("Existing Trip")).toBeTruthy());
+
+    fireEvent.changeText(screen.getByDisplayValue("Existing Trip"), "Existing Trip Updated");
+    fireEvent.press(screen.getByText("Save Changes"));
+    await waitFor(() => expect(updateTrip).toHaveBeenCalledTimes(1));
+
+    expect(useRouter().back).not.toHaveBeenCalled();
+    expect(useRouter().replace).toHaveBeenCalledWith("/trips/trip-1");
   });
 
   describe("Trip Cover Photo", () => {
@@ -285,6 +524,8 @@ describe("Create/Edit Trip screen", () => {
       await waitFor(() => expect(screen.getByDisplayValue("Plain Trip")).toBeTruthy());
       expect(screen.queryByLabelText("Trip cover photo")).toBeNull();
 
+      // Save Changes stays disabled until something changes.
+      fireEvent.changeText(screen.getByDisplayValue("Plain Trip"), "Plain Trip Updated");
       fireEvent.press(screen.getByText("Save Changes"));
       await waitFor(() => expect(updateTrip).toHaveBeenCalledTimes(1));
       expect(updateTrip.mock.calls[0][1].coverPhotoUri).toBeNull();

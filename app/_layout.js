@@ -27,7 +27,7 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: colors.lightGray }
         }}
       >
-        <Stack.Screen name="index" options={{ title: "VooDew" }} />
+        <Stack.Screen name="index" options={{ title: "Trip VooDew" }} />
         <Stack.Screen name="trips/create" options={{ title: "Create Trip" }} />
         <Stack.Screen name="trips/[tripId]/index" options={{ title: "Trip Dashboard" }} />
         <Stack.Screen name="trips/[tripId]/checklist" options={{ title: "Checklist" }} />

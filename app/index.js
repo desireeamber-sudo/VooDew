@@ -39,8 +39,8 @@ export default function HomeScreen() {
             style={styles.logo}
             accessibilityLabel="Trip VooDew logo"
           />
-          <View>
-            <Text style={styles.brand}>VooDew</Text>
+          <View style={styles.brandText}>
+            <Text style={styles.brand}>Trip VooDew</Text>
             <Text style={styles.tagline}>Your next event, organized.</Text>
           </View>
         </View>
@@ -85,7 +85,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12
   },
-  brandRow: { flexDirection: "row", alignItems: "center" },
+  // flexShrink on brandRow/brandText: "Trip VooDew" is longer than the old
+  // "VooDew" -- letting this side of the header shrink (rather than push
+  // the fixed-size create button off-screen) is the only layout change
+  // needed for the longer title; colors, sizing, and spacing are otherwise
+  // unchanged.
+  brandRow: { flexDirection: "row", alignItems: "center", flexShrink: 1 },
+  brandText: { flexShrink: 1 },
   logo: { width: 38, height: 38, borderRadius: 10, marginRight: 10 },
   brand: { ...typography.screenTitle, color: colors.primaryPink },
   tagline: { ...typography.body, color: colors.darkGray, marginTop: 2 },

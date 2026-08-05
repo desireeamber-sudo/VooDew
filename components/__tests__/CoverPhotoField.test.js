@@ -25,6 +25,26 @@ describe("CoverPhotoField", () => {
     expect(screen.queryByTestId("cover-photo-remove")).toBeNull();
   });
 
+  // The two main actions are a compact side-by-side row (not stacked
+  // full-width) -- Remove Photo stays a separate small text action below,
+  // not a third button in this row (see the "existing uri" test below).
+  test("Take Photo and Choose from Library sit side by side in one row", () => {
+    render(<CoverPhotoField uri={null} onChange={() => {}} />);
+    const row = screen.getByTestId("cover-photo-actions");
+    const flatStyle = Array.isArray(row.props.style) ? Object.assign({}, ...row.props.style) : row.props.style;
+    expect(flatStyle.flexDirection).toBe("row");
+  });
+
+  test("with an existing photo, Remove Photo is a small text action separate from the Retake/Choose Different row", () => {
+    render(<CoverPhotoField uri="file:///mock-documents/tripCoverPhotos/existing.jpg" onChange={() => {}} />);
+    expect(screen.getByText("Retake Photo")).toBeTruthy();
+    expect(screen.getByText("Choose Different Photo")).toBeTruthy();
+    // Remove Photo is its own Pressable outside the actions row, not one of
+    // the two buttons inside it.
+    const remove = screen.getByTestId("cover-photo-remove");
+    expect(remove.props.accessibilityRole).toBe("button");
+  });
+
   test("selecting a photo from the library persists it and hands the persistent uri to onChange", async () => {
     requestLibraryPhoto.mockResolvedValue({ status: "success", uri: "file:///cache/lib.jpg" });
     const onChange = jest.fn();

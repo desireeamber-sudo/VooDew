@@ -168,7 +168,7 @@ export default function RemindersScreen() {
       if (!identifier) {
         Alert.alert(
           "Reminder saved, but not scheduled",
-          "Enable notifications for VooDew in your device settings so this reminder can actually alert you."
+          "Enable notifications for Trip VooDew in your device settings so this reminder can actually alert you."
         );
       }
 
@@ -195,7 +195,7 @@ export default function RemindersScreen() {
 
     const identifier = await scheduleLocalReminder(reminder.title, reminder.description || "", when);
     if (!identifier) {
-      Alert.alert("Permission needed", "Enable notifications for VooDew to turn this reminder back on.");
+      Alert.alert("Permission needed", "Enable notifications for Trip VooDew to turn this reminder back on.");
       return;
     }
     await updateReminder(tripId, reminder.id, { enabled: true, osIdentifier: identifier });

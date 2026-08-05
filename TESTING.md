@@ -1,4 +1,4 @@
-# Testing VooDew
+# Testing Trip VooDew
 
 Automated tests for Trip VooDew: Jest + React Native Testing Library (RNTL)
 for unit, service, and screen-level tests, plus optional Maestro flows for
@@ -361,7 +361,7 @@ still can't leave its own button spinning indefinitely because of it.
   `launchCameraAsync` -- against a single 30-second timeout (`withTimeout`
   wrapping a new internal `cameraFlow()`). The first fix only wrapped the
   launch call; testing showed the hang can happen at the permission-prompt
-  step too (the OS-level "Allow VooDew to take pictures" dialog silently
+  step too (the OS-level "Allow Trip VooDew to take pictures" dialog silently
   never resolving on some emulators), so the whole flow is covered now,
   not just one step of it. A timeout -- or any genuine rejection from
   either step -- resolves to `{ status: "error", message }` instead of
@@ -551,6 +551,166 @@ complete, and the cover photo appears in the form.
   vs. dev build, not native/manifest config, and not option-shape mistakes.
   `launchCameraAsync()` never threw an exception at any point in this
   investigation; both bugs were silent, promise-never-settles hangs.
+
+## Navigation fix: duplicate Trip Dashboard entry after Save Changes
+
+Editing a trip and pressing Save Changes returned to the Trip Dashboard as
+expected, but pressing Back from there showed *another* Trip Dashboard
+first, and only a second Back reached Home. Root cause: Edit is always
+reached by *pushing* from that trip's own Dashboard (the pencil icon in
+`app/trips/[tripId]/index.js`), so the existing Dashboard is already
+directly underneath Edit on the stack (`[Home, Dashboard, Edit]`). Saving
+called `router.replace(\`/trips/${editId}\`)`, which swaps *Edit* for a
+*second* Dashboard screen (`[Home, Dashboard, Dashboard]`) instead of
+revealing the one already beneath it.
+
+- `app/trips/create.js`'s `handleSave()`: edit-mode save now calls
+  `router.back()` (popping Edit off and revealing the existing Dashboard
+  directly, giving `[Home, Dashboard]`) instead of `router.replace()`.
+  Falls back to `router.replace(\`/trips/${editId}\`)` only if
+  `router.canGoBack()` is false (e.g. Edit reached via a deep link with no
+  Dashboard beneath it). Create mode is unaffected -- it still uses
+  `router.replace()`, which is correct there since there's no existing
+  Dashboard to go back to. The Dashboard doesn't need a manual refetch on
+  return either: it holds a live `subscribeToTrip()` listener the whole
+  time Edit is open on top of it, so it already reflects the save the
+  instant `updateTrip()` resolves.
+- `__mocks__/expo-router.js`: added `canGoBack: jest.fn(() => true)` to the
+  router mock.
+- New tests in `create.test.js`: edit-save calls `router.back()` exactly
+  once and never pushes/replaces to a `trips/<id>` route (the exact
+  duplicate-entry scenario this bug caused), plus the `canGoBack() === false`
+  fallback path.
+
+## Create/Edit Trip screen polish
+
+Restructured the screen's layout and added a few small UX guardrails
+without changing any business logic (Firebase persistence, event-type/
+travel/venue-search/traveler/cover-photo logic, and date validation are
+all byte-for-byte the same as before this pass).
+
+- **Dynamic header title**: `<Stack.Screen options={{ title: ... }} />` is
+  now rendered directly from `create.js` (every other screen's title is
+  set once, statically, in `app/_layout.js` -- this is the first screen
+  that needs to vary its own title at runtime), showing "Create Trip" or
+  "Edit Trip" depending on whether an `editId` param is present. Set
+  independently of the trip data load, so it's correct even while the
+  edit-mode loading spinner is still showing.
+- **Sticky bottom action bar**: the Create Trip / Save Changes button moved
+  out of the `ScrollView` into a fixed footer below it (a plain sibling in
+  a flex column, not absolutely positioned over the scroll content -- so
+  there's no overlap for it to ever cover a field, "sticky" by construction
+  rather than by z-index). Button text still switches between "Create Trip"
+  and "Save Changes" by mode, exactly as before.
+- **Disabled until valid / until changed**: the button is disabled whenever
+  a required field is invalid (title, start date, end-date-after-start, and
+  transportation mode when the event type requires one -- mirrors
+  `handleSave`'s own `validateFields` checks, which are unchanged and still
+  run as a defensive backstop). In edit mode, it's *also* disabled until the
+  form differs from the trip as it was loaded, via a live comparison
+  (`buildTripPayload()`, the exact same shape `handleSave` sends to
+  Firestore, against a snapshot captured at load time) -- so "Save Changes"
+  never implies there's something new to save when there isn't. Shows
+  `AppButton`'s existing `loading` state while a save is in flight.
+- **Start/End Date in one row**: both `DateField`s now sit side by side in
+  a `flexBasis: "48%"` row (`flexWrap: "wrap"` lets it fall back to a
+  second row on a very narrow screen rather than clipping). No change to
+  `DateField` itself, `handleStartDateChange`, or the local-date-safe
+  string handling in `utils/dateUtils.js`.
+- **Section headers + reordered layout**: compact headers -- Trip Details,
+  Travel (only rendered at all when the event type has any travel
+  question to ask; this *is* "Travel section may collapse when not
+  required" -- there's nothing to collapse into when it wouldn't render
+  anyway), Location, Travelers, Notes -- following the suggested order
+  (title, event type, date row, cover photo, travel, location, travelers,
+  notes).
+- **Travelers/Notes as expandable sections**: new `components/CollapsibleSection.js`,
+  a small expand/collapse wrapper defaulting to *expanded*. Every field
+  inside stays immediately visible and interactable exactly as before --
+  collapsing is purely an opt-in "tidy this up" affordance, never a way
+  required content gets hidden by default (neither section contains a
+  required field anyway).
+- New/updated tests in `create.test.js`: dynamic title (both modes),
+  sticky button label (both modes), Start/End Date in one row, create-mode
+  disabled-until-valid (title, then the Out-of-Town-Concert transportation
+  case), and edit-mode disabled-until-changed (including re-disabling if a
+  field is edited back to its original value). Several existing edit-mode
+  save tests were updated to make a change before pressing Save Changes --
+  under the old always-enabled button they didn't need to, but that's
+  exactly the new behavior being added.
+
+## Create/Edit Trip screen: refinement pass
+
+A follow-up pass on the polish above, tightening four specific things.
+Business logic (event-type/travel/venue-search/traveler/cover-photo logic,
+date validation, create/update behavior) is unchanged.
+
+- **Start/End Date, robustly equal-width**: `dateRow`/`dateColumn` switched
+  from `flexBasis: "48%"` + `flexWrap: "wrap"` + negative-margin spacing to
+  `flexDirection: "row", gap: 12` with `flex: 1` columns -- a plain flexbox
+  row that can't fall back to a wrapped/uneven layout on a narrow screen the
+  way the old `flexWrap` version could.
+- **Event Type is now a `CollapsibleSection`**, matching Travelers/Notes:
+  `subtitle` shows the currently selected type's label (e.g. "Cruise") so
+  it's still visible at a glance while collapsed; expands on tap to reveal
+  the chips, same as before.
+- **Mode-based default expand state**: Event Type, Travelers, and Notes now
+  all default to *collapsed* in edit mode (`defaultExpanded={!isEditing}`)
+  and stay *expanded* in create mode. Reasoning: editing an existing trip is
+  usually about one specific change, not a top-to-bottom review, so
+  collapsing sections that already have a value (with the subtitle still
+  showing what that value is) gets Save Changes in view sooner. A brand new
+  trip has nothing to summarize yet, so create mode is unchanged -- fully
+  expanded, exactly like before this pass.
+- **Compact cover photo actions**: `CoverPhotoField`'s Take Photo/Choose
+  from Library (or Retake/Choose Different once a photo exists) are now a
+  side-by-side row (`flexDirection: "row", gap: 10`, `flex: 1` buttons)
+  instead of three stacked full-width rows; Remove Photo stays the separate
+  small text action below, unchanged. This was previously stacked because
+  `AppButton`'s fixed `height: 50` would clip a wrapped two-line label like
+  "Choose Different Photo" in a narrower half-width button -- fixed at the
+  root by changing `AppButton`'s `base` style to `minHeight: 50`, so any
+  button (here or elsewhere) grows for wrapped text instead of clipping.
+  No existing button's visual height changes, since none of their labels
+  wrap. `"Take Photo"`/`"Choose from Library"` (the two exact strings
+  `CoverPhotoField.test.js` already asserted on) are untouched.
+- New/updated tests: `create.test.js` gained a "collapsible sections default
+  by mode" block (create mode all-expanded; edit mode all-collapsed with
+  Event Type's subtitle showing the loaded type, expanding on tap).
+  `CoverPhotoField.test.js` gained a row-layout check (`cover-photo-actions`,
+  a new testID on the action row) and a check that Remove Photo stays
+  separate from the Retake/Choose Different row once a photo exists.
+
+## Branding consistency: "VooDew" -> "Trip VooDew"
+
+The Home screen's app title read "VooDew" while the rest of the app (cover
+photo permission strings, this doc's own intro line, etc.) already said
+"Trip VooDew" -- inconsistent. Every remaining user-facing "VooDew" was
+updated to "Trip VooDew"; identifiers were left alone.
+
+- **Changed** (user-visible text): `app/index.js`'s Home header title;
+  `app/_layout.js`'s `index` screen's native header title; `app.json`'s
+  `expo.name` (the OS-level app display name shown under the icon/in the
+  app switcher); the CoverPhotoField permission-denied notice; the Android
+  notification channel's display name in `services/notificationService.js`;
+  the two reminder-permission `Alert`s in `app/trips/[tripId]/reminders.js`;
+  both Maestro flows' `assertVisible` checks (kept in sync with the actual
+  rendered text so they still pass); this file's own title and the OS
+  permission-dialog description; and `README.md`'s title/intro line.
+- **Left alone** (identifiers, not branding): `app.json`'s `slug`
+  (`"voodew"`), `scheme` (`"voodew"`), iOS `bundleIdentifier` and Android
+  `package` (`com.voodew.app`, referenced as-is in both Maestro flows'
+  `appId`), Firebase collection names, and code comments that just mention
+  the app by name informally (`constants/colors.js`, `components/DateField.js`,
+  `components/DateTimeModal.js`) -- none of those are text a user ever sees,
+  and comments weren't part of what "branding" means here.
+- **Small layout note**: "Trip VooDew" is longer than "VooDew" at the same
+  28pt bold `screenTitle` size. Added `flexShrink: 1` to the Home header's
+  brand `View`/row (only) so the longer title can wrap/shrink instead of
+  pushing the fixed-size Create Trip button off-screen on a narrow device --
+  no other spacing, color, or sizing changed.
+- Updated `app/__tests__/index.test.js` to assert the Home screen renders
+  "Trip VooDew" as its title text.
 
 ## Known limitations of this pass
 

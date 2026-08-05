@@ -1,8 +1,8 @@
-# VooDew
+# Trip VooDew
 
 **Entertainment-Focused Group Event & Trip Planner** — a React Native (Expo) app built for ACS-5413 (Summer 2026).
 
-VooDew helps a user create an event or trip, generates a suggested checklist based on event type and travel needs, stores reservation links, shows the venue/destination on a map, schedules local reminders, assigns travelers, and tracks shared expenses — replacing the usual scatter of email, ticket apps, hotel confirmations, texts, and notes.
+Trip VooDew helps a user create an event or trip, generates a suggested checklist based on event type and travel needs, stores reservation links, shows the venue/destination on a map, schedules local reminders, assigns travelers, and tracks shared expenses — replacing the usual scatter of email, ticket apps, hotel confirmations, texts, and notes.
 
 ## Features (Class MVP)
 

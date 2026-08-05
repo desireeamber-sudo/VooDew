@@ -9,7 +9,7 @@
 appId: com.voodew.app
 ---
 - launchApp
-- assertVisible: "VooDew"
+- assertVisible: "Trip VooDew"
 - assertVisible: "Create Trip"
 - tapOn: "Create Trip"
 
