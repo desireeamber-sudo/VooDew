@@ -1,0 +1,1294 @@
+diff --git a/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/results.bin b/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/results.bin
+new file mode 100644
+index 0000000..0d259dd
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/results.bin
+@@ -0,0 +1 @@
++o/classes
+diff --git a/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/transformed/classes/classes_dex/classes.dex b/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/transformed/classes/classes_dex/classes.dex
+new file mode 100644
+index 0000000..5cdbf52
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/.transforms/a77a61033e5505c5a89a0722c5aec18b/transformed/classes/classes_dex/classes.dex differ
+diff --git a/node_modules/expo-image-picker/android/build/generated/source/buildConfig/debug/expo/modules/imagepicker/BuildConfig.java b/node_modules/expo-image-picker/android/build/generated/source/buildConfig/debug/expo/modules/imagepicker/BuildConfig.java
+new file mode 100644
+index 0000000..c084b78
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/generated/source/buildConfig/debug/expo/modules/imagepicker/BuildConfig.java
+@@ -0,0 +1,10 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package expo.modules.imagepicker;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = Boolean.parseBoolean("true");
++  public static final String LIBRARY_PACKAGE_NAME = "expo.modules.imagepicker";
++  public static final String BUILD_TYPE = "debug";
++}
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..7aa4d51
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    package="expo.modules.imagepicker" >
++
++    <uses-sdk android:minSdkVersion="23" />
++    <!-- Required for picking images from camera directly -->
++    <uses-permission android:name="android.permission.CAMERA" />
++
++    <!-- Required for picking images from camera roll -->
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++
++    <queries>
++        <intent>
++
++            <!-- Required for picking images from the camera roll if targeting API 30 -->
++            <action android:name="android.media.action.IMAGE_CAPTURE" />
++        </intent>
++        <intent>
++
++            <!-- Required for picking images from the camera if targeting API 30 -->
++            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
++        </intent>
++    </queries>
++
++    <application>
++        <service
++            android:name="com.google.android.gms.metadata.ModuleDependencies"
++            android:enabled="false"
++            android:exported="false"
++            tools:ignore="MissingClass" >
++            <intent-filter>
++                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
++            </intent-filter>
++
++            <meta-data
++                android:name="photopicker_activity:0:required"
++                android:value="" />
++        </service>
++
++        <activity
++            android:name="com.canhub.cropper.CropImageActivity"
++            android:theme="@style/Base.Theme.AppCompat" />
++        <!-- https://developer.android.com/guide/topics/manifest/provider-element.html -->
++        <provider
++            android:name="expo.modules.imagepicker.fileprovider.ImagePickerFileProvider"
++            android:authorities="dollar_openBracket_applicationId_closeBracket.ImagePickerFileProvider"
++            android:exported="false"
++            android:grantUriPermissions="true" >
++            <meta-data
++                android:name="android.support.FILE_PROVIDER_PATHS"
++                android:resource="@xml/image_picker_provider_paths" />
++        </provider>
++    </application>
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+new file mode 100644
+index 0000000..694308a
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+@@ -0,0 +1,18 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "expo.modules.imagepicker",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/expo-image-picker/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+new file mode 100644
+index 0000000..1211b1e
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+@@ -0,0 +1,6 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
++minCompileSdk=1
++minCompileSdkExtension=0
++minAndroidGradlePluginVersion=1.0.0
++coreLibraryDesugaringEnabled=false
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/expo-image-picker/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/expo-image-picker/android/build/intermediates/compile_library_classes_jar/debug/classes.jar
+new file mode 100644
+index 0000000..bd3213d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/expo-image-picker/android/build/intermediates/compile_r_class_jar/debug/R.jar
+new file mode 100644
+index 0000000..35338b2
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/expo-image-picker/android/build/intermediates/compile_symbol_list/debug/R.txt
+new file mode 100644
+index 0000000..41f932b
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/compile_symbol_list/debug/R.txt
+@@ -0,0 +1 @@
++int xml image_picker_provider_paths 0x0
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/compiled_local_resources/debug/out/xml_image_picker_provider_paths.xml.flat b/node_modules/expo-image-picker/android/build/intermediates/compiled_local_resources/debug/out/xml_image_picker_provider_paths.xml.flat
+new file mode 100644
+index 0000000..7c5fb2c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/compiled_local_resources/debug/out/xml_image_picker_provider_paths.xml.flat differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+new file mode 100644
+index 0000000..26d9cb3
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+@@ -0,0 +1,2 @@
++#Mon Aug 03 21:43:18 CDT 2026
++expo.modules.imagepicker.expo-image-picker-main-6\:/xml/image_picker_provider_paths.xml=C\:\\ACS\\ACS-5413\\Project\\VooDew\\node_modules\\expo-image-picker\\android\\build\\intermediates\\packaged_res\\debug\\xml\\image_picker_provider_paths.xml
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+new file mode 100644
+index 0000000..c2d94a9
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\res"><file name="image_picker_provider_paths" path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\res\xml\image_picker_provider_paths.xml" qualifiers="" type="xml"/></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\build\generated\res\resValues\debug"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/java_res/debug/out/META-INF/expo-image-picker_debug.kotlin_module b/node_modules/expo-image-picker/android/build/intermediates/java_res/debug/out/META-INF/expo-image-picker_debug.kotlin_module
+new file mode 100644
+index 0000000..c91329d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/java_res/debug/out/META-INF/expo-image-picker_debug.kotlin_module differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/javac/debug/classes/expo/modules/imagepicker/BuildConfig.class b/node_modules/expo-image-picker/android/build/intermediates/javac/debug/classes/expo/modules/imagepicker/BuildConfig.class
+new file mode 100644
+index 0000000..a18a322
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/javac/debug/classes/expo/modules/imagepicker/BuildConfig.class differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/expo-image-picker/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+new file mode 100644
+index 0000000..69743a7
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+@@ -0,0 +1,3 @@
++R_DEF: Internal format may change without notice
++local
++xml image_picker_provider_paths
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/expo-image-picker/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+new file mode 100644
+index 0000000..7da10a1
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,93 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    xmlns:tools="http://schemas.android.com/tools"
++4    package="expo.modules.imagepicker" >
++5
++6    <uses-sdk android:minSdkVersion="23" />
++7    <!-- Required for picking images from camera directly -->
++8    <uses-permission android:name="android.permission.CAMERA" />
++8-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:4:3-63
++8-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:4:20-60
++9
++10    <!-- Required for picking images from camera roll -->
++11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++11-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:7:3-79
++11-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:7:20-76
++12    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++12-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:8:3-78
++12-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:8:20-75
++13
++14    <queries>
++14-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:39:3-48:13
++15        <intent>
++15-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:40:5-43:14
++16
++17            <!-- Required for picking images from the camera roll if targeting API 30 -->
++18            <action android:name="android.media.action.IMAGE_CAPTURE" />
++18-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:42:7-67
++18-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:42:15-64
++19        </intent>
++20        <intent>
++20-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:44:5-47:14
++21
++22            <!-- Required for picking images from the camera if targeting API 30 -->
++23            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
++23-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:46:7-74
++23-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:46:15-71
++24        </intent>
++25    </queries>
++26
++27    <application>
++27-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:10:3-37:17
++28        <service
++28-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:11:5-22:15
++29            android:name="com.google.android.gms.metadata.ModuleDependencies"
++29-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:12:7-72
++30            android:enabled="false"
++30-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:13:7-30
++31            android:exported="false"
++31-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:14:7-31
++32            tools:ignore="MissingClass" >
++32-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:15:7-34
++33            <intent-filter>
++33-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:16:7-18:23
++34                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
++34-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:17:9-86
++34-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:17:17-83
++35            </intent-filter>
++36
++37            <meta-data
++37-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:19:7-21:28
++38                android:name="photopicker_activity:0:required"
++38-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:20:9-55
++39                android:value="" />
++39-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:21:9-25
++40        </service>
++41
++42        <activity
++42-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:24:5-26:53
++43            android:name="com.canhub.cropper.CropImageActivity"
++43-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:25:7-58
++44            android:theme="@style/Base.Theme.AppCompat" />
++44-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:26:7-50
++45        <!-- https://developer.android.com/guide/topics/manifest/provider-element.html -->
++46        <provider
++46-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:28:5-36:16
++47            android:name="expo.modules.imagepicker.fileprovider.ImagePickerFileProvider"
++47-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:29:7-59
++48            android:authorities="${applicationId}.ImagePickerFileProvider"
++48-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:30:7-69
++49            android:exported="false"
++49-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:31:7-31
++50            android:grantUriPermissions="true" >
++50-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:32:7-41
++51            <meta-data
++51-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:33:7-35:63
++52                android:name="android.support.FILE_PROVIDER_PATHS"
++52-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:34:9-59
++53                android:resource="@xml/image_picker_provider_paths" />
++53-->C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:35:9-60
++54        </provider>
++55    </application>
++56
++57</manifest>
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/expo-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+new file mode 100644
+index 0000000..b5b8275
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    package="expo.modules.imagepicker" >
++
++    <uses-sdk android:minSdkVersion="23" />
++    <!-- Required for picking images from camera directly -->
++    <uses-permission android:name="android.permission.CAMERA" />
++
++    <!-- Required for picking images from camera roll -->
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++
++    <queries>
++        <intent>
++
++            <!-- Required for picking images from the camera roll if targeting API 30 -->
++            <action android:name="android.media.action.IMAGE_CAPTURE" />
++        </intent>
++        <intent>
++
++            <!-- Required for picking images from the camera if targeting API 30 -->
++            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
++        </intent>
++    </queries>
++
++    <application>
++        <service
++            android:name="com.google.android.gms.metadata.ModuleDependencies"
++            android:enabled="false"
++            android:exported="false"
++            tools:ignore="MissingClass" >
++            <intent-filter>
++                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
++            </intent-filter>
++
++            <meta-data
++                android:name="photopicker_activity:0:required"
++                android:value="" />
++        </service>
++
++        <activity
++            android:name="com.canhub.cropper.CropImageActivity"
++            android:theme="@style/Base.Theme.AppCompat" />
++        <!-- https://developer.android.com/guide/topics/manifest/provider-element.html -->
++        <provider
++            android:name="expo.modules.imagepicker.fileprovider.ImagePickerFileProvider"
++            android:authorities="${applicationId}.ImagePickerFileProvider"
++            android:exported="false"
++            android:grantUriPermissions="true" >
++            <meta-data
++                android:name="android.support.FILE_PROVIDER_PATHS"
++                android:resource="@xml/image_picker_provider_paths" />
++        </provider>
++    </application>
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/navigation_json/debug/navigation.json b/node_modules/expo-image-picker/android/build/intermediates/navigation_json/debug/navigation.json
+new file mode 100644
+index 0000000..0637a08
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/navigation_json/debug/navigation.json
+@@ -0,0 +1 @@
++[]
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/packaged_res/debug/xml/image_picker_provider_paths.xml b/node_modules/expo-image-picker/android/build/intermediates/packaged_res/debug/xml/image_picker_provider_paths.xml
+new file mode 100644
+index 0000000..975823c
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/packaged_res/debug/xml/image_picker_provider_paths.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<paths>
++  <files-path name="expo_files" path="." />
++  <cache-path name="cached_expo_files" path="." />
++</paths>
++
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/expo-image-picker/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar
+new file mode 100644
+index 0000000..1c18318
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+diff --git a/node_modules/expo-image-picker/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/expo-image-picker/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+new file mode 100644
+index 0000000..14c08a2
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+@@ -0,0 +1,2 @@
++expo.modules.imagepicker
++xml image_picker_provider_paths
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab
+new file mode 100644
+index 0000000..77065c8
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream
+new file mode 100644
+index 0000000..ab3274b
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len
+new file mode 100644
+index 0000000..8ef1900
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len
+new file mode 100644
+index 0000000..cf8a30a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at
+new file mode 100644
+index 0000000..51b96c8
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i
+new file mode 100644
+index 0000000..9cbe931
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/inputs/source-to-output.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab
+new file mode 100644
+index 0000000..b176bc1
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream
+new file mode 100644
+index 0000000..4654a88
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len
+new file mode 100644
+index 0000000..288d1b3
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len
+new file mode 100644
+index 0000000..b67c227
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at
+new file mode 100644
+index 0000000..77edd30
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i
+new file mode 100644
+index 0000000..c6d029d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-attributes.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab
+new file mode 100644
+index 0000000..06184de
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream
+new file mode 100644
+index 0000000..4654a88
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len
+new file mode 100644
+index 0000000..288d1b3
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len
+new file mode 100644
+index 0000000..b67c227
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at
+new file mode 100644
+index 0000000..417695e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i
+new file mode 100644
+index 0000000..c6d029d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab
+new file mode 100644
+index 0000000..d802714
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream
+new file mode 100644
+index 0000000..74d4038
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len
+new file mode 100644
+index 0000000..b730b19
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len
+new file mode 100644
+index 0000000..93a595b
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at
+new file mode 100644
+index 0000000..aa36b21
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i
+new file mode 100644
+index 0000000..0fcfcff
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/constants.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab
+new file mode 100644
+index 0000000..4bd5696
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream
+new file mode 100644
+index 0000000..4feae09
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len
+new file mode 100644
+index 0000000..bca327c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len
+new file mode 100644
+index 0000000..499fd61
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at
+new file mode 100644
+index 0000000..32771cf
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i
+new file mode 100644
+index 0000000..7e3566c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab
+new file mode 100644
+index 0000000..6bc1f56
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream
+new file mode 100644
+index 0000000..e540dad
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len
+new file mode 100644
+index 0000000..b701bcc
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len
+new file mode 100644
+index 0000000..a9f80ae
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at
+new file mode 100644
+index 0000000..33c7d6c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i
+new file mode 100644
+index 0000000..d8d9406
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/package-parts.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab
+new file mode 100644
+index 0000000..9524dc6
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream
+new file mode 100644
+index 0000000..cfe2ca9
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len
+new file mode 100644
+index 0000000..6a5a0bc
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len
+new file mode 100644
+index 0000000..709f734
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at
+new file mode 100644
+index 0000000..96e8ed1
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i
+new file mode 100644
+index 0000000..14c229c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/proto.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab
+new file mode 100644
+index 0000000..b29f8eb
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream
+new file mode 100644
+index 0000000..301e183
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len
+new file mode 100644
+index 0000000..8ef1900
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len
+new file mode 100644
+index 0000000..cf8a30a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at
+new file mode 100644
+index 0000000..fe0c84f
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i
+new file mode 100644
+index 0000000..e97a7ed
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab
+new file mode 100644
+index 0000000..37fe89e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream
+new file mode 100644
+index 0000000..e5f1cff
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len
+new file mode 100644
+index 0000000..fd3b477
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len
+new file mode 100644
+index 0000000..fd5292d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at
+new file mode 100644
+index 0000000..64528ae
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i
+new file mode 100644
+index 0000000..07a816a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab
+new file mode 100644
+index 0000000..87df8bd
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream
+new file mode 100644
+index 0000000..63c62aa
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len
+new file mode 100644
+index 0000000..ef07157
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len
+new file mode 100644
+index 0000000..575d132
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at
+new file mode 100644
+index 0000000..350411b
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i
+new file mode 100644
+index 0000000..d32fe82
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/jvm/kotlin/supertypes.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab
+new file mode 100644
+index 0000000..4fef5ef
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/counters.tab
+@@ -0,0 +1,2 @@
++15
++0
+\ No newline at end of file
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab
+new file mode 100644
+index 0000000..d7714ac
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream
+new file mode 100644
+index 0000000..301e183
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len
+new file mode 100644
+index 0000000..8ef1900
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len
+new file mode 100644
+index 0000000..cf8a30a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at
+new file mode 100644
+index 0000000..3763557
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i
+new file mode 100644
+index 0000000..e97a7ed
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/file-to-id.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab
+new file mode 100644
+index 0000000..6724c65
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream
+new file mode 100644
+index 0000000..fbebe84
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len
+new file mode 100644
+index 0000000..933d553
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len
+new file mode 100644
+index 0000000..cf8a30a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at
+new file mode 100644
+index 0000000..658a072
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i
+new file mode 100644
+index 0000000..0c98456
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/id-to-file.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab
+new file mode 100644
+index 0000000..302257e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream
+new file mode 100644
+index 0000000..9e76697
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len
+new file mode 100644
+index 0000000..42e3ed2
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.keystream.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len
+new file mode 100644
+index 0000000..460b9a8
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at
+new file mode 100644
+index 0000000..a536825
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab.values.at differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i
+new file mode 100644
+index 0000000..c2e6da5
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len
+new file mode 100644
+index 0000000..131e265
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/caches-jvm/lookups/lookups.tab_i.len differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin
+new file mode 100644
+index 0000000..15a4daa
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/cacheable/last-build.bin differ
+diff --git a/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin
+new file mode 100644
+index 0000000..c186ad7
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/kotlin/compileDebugKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin differ
+diff --git a/node_modules/expo-image-picker/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/expo-image-picker/android/build/outputs/logs/manifest-merger-debug-report.txt
+new file mode 100644
+index 0000000..cccf796
+--- /dev/null
++++ b/node_modules/expo-image-picker/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,90 @@
++-- Merging decision tree log ---
++manifest
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:1:1-49:12
++INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:1:1-49:12
++	package
++		INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml
++	xmlns:tools
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:2:3-49
++	xmlns:android
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:1:11-69
++uses-permission#android.permission.CAMERA
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:4:3-63
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:4:20-60
++uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:7:3-79
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:7:20-76
++uses-permission#android.permission.READ_EXTERNAL_STORAGE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:8:3-78
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:8:20-75
++application
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:10:3-37:17
++service#com.google.android.gms.metadata.ModuleDependencies
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:11:5-22:15
++	android:enabled
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:13:7-30
++	android:exported
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:14:7-31
++	tools:ignore
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:15:7-34
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:12:7-72
++intent-filter#action:name:com.google.android.gms.metadata.MODULE_DEPENDENCIES
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:16:7-18:23
++action#com.google.android.gms.metadata.MODULE_DEPENDENCIES
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:17:9-86
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:17:17-83
++meta-data#photopicker_activity:0:required
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:19:7-21:28
++	android:value
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:21:9-25
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:20:9-55
++activity#com.canhub.cropper.CropImageActivity
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:24:5-26:53
++	android:theme
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:26:7-50
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:25:7-58
++provider#expo.modules.imagepicker.fileprovider.ImagePickerFileProvider
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:28:5-36:16
++	android:grantUriPermissions
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:32:7-41
++	android:authorities
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:30:7-69
++	android:exported
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:31:7-31
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:29:7-59
++meta-data#android.support.FILE_PROVIDER_PATHS
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:33:7-35:63
++	android:resource
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:35:9-60
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:34:9-59
++queries
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:39:3-48:13
++intent#action:name:android.media.action.IMAGE_CAPTURE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:40:5-43:14
++action#android.media.action.IMAGE_CAPTURE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:42:7-67
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:42:15-64
++intent#action:name:android.media.action.ACTION_VIDEO_CAPTURE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:44:5-47:14
++action#android.media.action.ACTION_VIDEO_CAPTURE
++ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:46:7-74
++	android:name
++		ADDED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml:46:15-71
++uses-sdk
++INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml
++INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from C:\ACS\ACS-5413\Project\VooDew\node_modules\expo-image-picker\android\src\main\AndroidManifest.xml
+diff --git a/node_modules/expo-image-picker/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/expo-image-picker/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
+new file mode 100644
+index 0000000..0207393
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/META-INF/expo-image-picker_debug.kotlin_module b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/META-INF/expo-image-picker_debug.kotlin_module
+new file mode 100644
+index 0000000..c91329d
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/META-INF/expo-image-picker_debug.kotlin_module differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/AdditionalFileData.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/AdditionalFileData.class
+new file mode 100644
+index 0000000..2eb8a49
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/AdditionalFileData.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/CameraType.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/CameraType.class
+new file mode 100644
+index 0000000..04869ce
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/CameraType.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToCreateFileException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToCreateFileException.class
+new file mode 100644
+index 0000000..0a28e01
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToCreateFileException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToDeduceTypeException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToDeduceTypeException.class
+new file mode 100644
+index 0000000..0178499
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToDeduceTypeException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToExtractVideoMetadataException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToExtractVideoMetadataException.class
+new file mode 100644
+index 0000000..8ebcbd9
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToExtractVideoMetadataException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToPickMediaException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToPickMediaException.class
+new file mode 100644
+index 0000000..108ee23
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToPickMediaException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToReadFileException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToReadFileException.class
+new file mode 100644
+index 0000000..d1b8db1
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToReadFileException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteExifDataToFileException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteExifDataToFileException.class
+new file mode 100644
+index 0000000..c67685f
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteExifDataToFileException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteFileException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteFileException.class
+new file mode 100644
+index 0000000..22f20f0
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/FailedToWriteFileException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerAsset.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerAsset.class
+new file mode 100644
+index 0000000..7da9fb6
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerAsset.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants$EXIF_TAGS$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants$EXIF_TAGS$1.class
+new file mode 100644
+index 0000000..cf2efbd
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants$EXIF_TAGS$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants.class
+new file mode 100644
+index 0000000..9a79aad
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerConstants.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$5$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$5$1.class
+new file mode 100644
+index 0000000..6b2513e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$5$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$6$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$6$1.class
+new file mode 100644
+index 0000000..6ccc774
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$6$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$1.class
+new file mode 100644
+index 0000000..e4295cb
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$2.class
+new file mode 100644
+index 0000000..a8b4aaa
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$3.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$3.class
+new file mode 100644
+index 0000000..e4ad55b
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8$3.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8.class
+new file mode 100644
+index 0000000..d0b13f3
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$1$8.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$1.class
+new file mode 100644
+index 0000000..0bb4767
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$2.class
+new file mode 100644
+index 0000000..eb86eab
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$3.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$3.class
+new file mode 100644
+index 0000000..97781f9
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$3.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$4.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$4.class
+new file mode 100644
+index 0000000..c5d1c23
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$4.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$5.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$5.class
+new file mode 100644
+index 0000000..20cf955
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$5.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$6.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$6.class
+new file mode 100644
+index 0000000..498d644
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunction$6.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$1.class
+new file mode 100644
+index 0000000..80924eb
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$2.class
+new file mode 100644
+index 0000000..67c37a0
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$3.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$3.class
+new file mode 100644
+index 0000000..f93295f
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$3.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$4.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$4.class
+new file mode 100644
+index 0000000..4eab938
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$AsyncFunctionWithPromise$4.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$1.class
+new file mode 100644
+index 0000000..1828426
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$2.class
+new file mode 100644
+index 0000000..cf6c9e0
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$3.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$3.class
+new file mode 100644
+index 0000000..7e76505
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$3.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$4.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$4.class
+new file mode 100644
+index 0000000..82b0ccf
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$4.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$5.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$5.class
+new file mode 100644
+index 0000000..67c9493
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$definition$lambda$7$$inlined$Coroutine$5.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$ensureCameraPermissionsAreGranted$2$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$ensureCameraPermissionsAreGranted$2$1.class
+new file mode 100644
+index 0000000..d7398fa
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$ensureCameraPermissionsAreGranted$2$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$1.class
+new file mode 100644
+index 0000000..f6db098
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$2.class
+new file mode 100644
+index 0000000..c4c3f6a
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchContract$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchPicker$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchPicker$2.class
+new file mode 100644
+index 0000000..cf63dd5
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule$launchPicker$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule.class
+new file mode 100644
+index 0000000..de264c1
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModule.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModuleKt.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModuleKt.class
+new file mode 100644
+index 0000000..b8a0d09
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerModuleKt.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptions.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptions.class
+new file mode 100644
+index 0000000..e64d57c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptions.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptionsKt.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptionsKt.class
+new file mode 100644
+index 0000000..c7b567f
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerOptionsKt.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerResponse.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerResponse.class
+new file mode 100644
+index 0000000..c4cc63e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerResponse.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$WhenMappings.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$WhenMappings.class
+new file mode 100644
+index 0000000..f53547c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$WhenMappings.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyExifData$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyExifData$2.class
+new file mode 100644
+index 0000000..81d3104
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyExifData$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyFile$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyFile$2.class
+new file mode 100644
+index 0000000..90d80ca
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$copyFile$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1$iterator$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1$iterator$1.class
+new file mode 100644
+index 0000000..1e720b3
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1$iterator$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1.class
+new file mode 100644
+index 0000000..b60b8e6
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt$items$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt.class
+new file mode 100644
+index 0000000..7adde15
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/ImagePickerUtilsKt.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$WhenMappings.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$WhenMappings.class
+new file mode 100644
+index 0000000..0731101
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$WhenMappings.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleImage$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleImage$1.class
+new file mode 100644
+index 0000000..d5dea88
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleImage$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleVideo$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleVideo$1.class
+new file mode 100644
+index 0000000..f3efc50
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$handleVideo$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$readExtras$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$readExtras$1.class
+new file mode 100644
+index 0000000..42d764f
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler$readExtras$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler.class
+new file mode 100644
+index 0000000..ae322d7
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaHandler.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaType.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaType.class
+new file mode 100644
+index 0000000..f6306ea
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaType.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$Companion.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$Companion.class
+new file mode 100644
+index 0000000..3e3bc4e
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$Companion.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$WhenMappings.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$WhenMappings.class
+new file mode 100644
+index 0000000..fef43eb
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes$WhenMappings.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes.class
+new file mode 100644
+index 0000000..251b8f8
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MediaTypes.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingActivityToHandleIntent.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingActivityToHandleIntent.class
+new file mode 100644
+index 0000000..ce20c89
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingActivityToHandleIntent.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingCurrentActivityException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingCurrentActivityException.class
+new file mode 100644
+index 0000000..ead74be
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingCurrentActivityException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingModuleException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingModuleException.class
+new file mode 100644
+index 0000000..fd48437
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/MissingModuleException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/PendingMediaPickingResult.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/PendingMediaPickingResult.class
+new file mode 100644
+index 0000000..34201d9
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/PendingMediaPickingResult.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/UserRejectedPermissionsException.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/UserRejectedPermissionsException.class
+new file mode 100644
+index 0000000..1edc527
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/UserRejectedPermissionsException.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContract.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContract.class
+new file mode 100644
+index 0000000..0af4e69
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContract.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContractOptions.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContractOptions.class
+new file mode 100644
+index 0000000..1254ebe
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CameraContractOptions.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract$parseResult$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract$parseResult$1.class
+new file mode 100644
+index 0000000..8d726ea
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract$parseResult$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract.class
+new file mode 100644
+index 0000000..9e8d476
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContract.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContractOptions.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContractOptions.class
+new file mode 100644
+index 0000000..d4de2d7
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/CropImageContractOptions.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract$WhenMappings.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract$WhenMappings.class
+new file mode 100644
+index 0000000..25c7c75
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract$WhenMappings.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract.class
+new file mode 100644
+index 0000000..c293032
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContract.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContractOptions.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContractOptions.class
+new file mode 100644
+index 0000000..8e90506
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImageLibraryContractOptions.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Cancelled.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Cancelled.class
+new file mode 100644
+index 0000000..c371d08
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Cancelled.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Error.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Error.class
+new file mode 100644
+index 0000000..620429b
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Error.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Success.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Success.class
+new file mode 100644
+index 0000000..163a3ee
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult$Success.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult.class
+new file mode 100644
+index 0000000..6338ace
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/contracts/ImagePickerContractResult.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$1.class
+new file mode 100644
+index 0000000..049b683
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$2.class
+new file mode 100644
+index 0000000..2d25277
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$exportAsync$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$1.class
+new file mode 100644
+index 0000000..c8d25d3
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$2.class
+new file mode 100644
+index 0000000..402ba61
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$readBitmap$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$writeImage$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$writeImage$2.class
+new file mode 100644
+index 0000000..b8ad7ab
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter$writeImage$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter.class
+new file mode 100644
+index 0000000..a3b129c
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/CompressionImageExporter.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$data$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$data$2.class
+new file mode 100644
+index 0000000..1b716f5
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$data$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$exif$2.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$exif$2.class
+new file mode 100644
+index 0000000..9bfcf90
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult$exif$2.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult.class
+new file mode 100644
+index 0000000..3255a06
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExportResult.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExporter.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExporter.class
+new file mode 100644
+index 0000000..590f1d2
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/ImageExporter.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter$exportAsync$1.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter$exportAsync$1.class
+new file mode 100644
+index 0000000..b5ddded
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter$exportAsync$1.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter.class
+new file mode 100644
+index 0000000..7daad43
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/exporters/RawImageExporter.class differ
+diff --git a/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/fileprovider/ImagePickerFileProvider.class b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/fileprovider/ImagePickerFileProvider.class
+new file mode 100644
+index 0000000..5a64c69
+Binary files /dev/null and b/node_modules/expo-image-picker/android/build/tmp/kotlin-classes/debug/expo/modules/imagepicker/fileprovider/ImagePickerFileProvider.class differ
+diff --git a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+index 66e730f..f3ac4f5 100644
+--- a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
++++ b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+@@ -266,31 +266,52 @@ class ImagePickerModule : Module() {
+     }
+   }
+ 
+-  private suspend fun ensureCameraPermissionsAreGranted(): Unit = suspendCancellableCoroutine { continuation ->
+-    val permissions = appContext.permissions ?: throw ModuleNotFoundException("Permissions")
++  // PATCHED (see patches/expo-image-picker+15.1.0.patch): on some Android
++  // versions/emulators, when every permission below is *already* granted,
++  // Android's own "nothing to request" short-circuit never invokes
++  // askForPermissions()'s completion callback (observed in logcat as
++  // "Activity: No requestable permission in the request." with nothing
++  // after it) -- so this coroutine hung forever on every launchCameraAsync()
++  // call, even though permission was never actually a problem. Checking
++  // ContextCompat.checkSelfPermission() first and skipping askForPermissions()
++  // entirely when already granted avoids the broken code path altogether;
++  // askForPermissions() is still used, and still needed, for a genuine
++  // first-time ask.
++  private suspend fun ensureCameraPermissionsAreGranted(): Unit {
++    val requiredPermissions = listOfNotNull(
++      Manifest.permission.WRITE_EXTERNAL_STORAGE.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU },
++      Manifest.permission.CAMERA
++    )
++    val alreadyGranted = requiredPermissions.all {
++      ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
++    }
++    if (alreadyGranted) {
++      return
++    }
+ 
+-    permissions.askForPermissions(
+-      { permissionsResponse ->
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+-          if (permissionsResponse[Manifest.permission.CAMERA]?.status == PermissionsStatus.GRANTED) {
++    return suspendCancellableCoroutine { continuation ->
++      val permissions = appContext.permissions ?: throw ModuleNotFoundException("Permissions")
++
++      permissions.askForPermissions(
++        { permissionsResponse ->
++          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
++            if (permissionsResponse[Manifest.permission.CAMERA]?.status == PermissionsStatus.GRANTED) {
++              continuation.resume(Unit)
++            } else {
++              continuation.resumeWithException(UserRejectedPermissionsException())
++            }
++          } else if (
++            permissionsResponse[Manifest.permission.WRITE_EXTERNAL_STORAGE]?.status == PermissionsStatus.GRANTED &&
++            permissionsResponse[Manifest.permission.CAMERA]?.status == PermissionsStatus.GRANTED
++          ) {
+             continuation.resume(Unit)
+           } else {
+             continuation.resumeWithException(UserRejectedPermissionsException())
+           }
+-        } else if (
+-          permissionsResponse[Manifest.permission.WRITE_EXTERNAL_STORAGE]?.status == PermissionsStatus.GRANTED &&
+-          permissionsResponse[Manifest.permission.CAMERA]?.status == PermissionsStatus.GRANTED
+-        ) {
+-          continuation.resume(Unit)
+-        } else {
+-          continuation.resumeWithException(UserRejectedPermissionsException())
+-        }
+-      },
+-      *listOfNotNull(
+-        Manifest.permission.WRITE_EXTERNAL_STORAGE.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU },
+-        Manifest.permission.CAMERA
+-      ).toTypedArray()
+-    )
++        },
++        *requiredPermissions.toTypedArray()
++      )
++    }
+   }
+ 
+   // endregion

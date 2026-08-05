@@ -1,0 +1,28 @@
+# Maestro E2E smoke flow: create a standalone reminder (not linked to a
+# checklist item) on an existing trip and confirm it appears in the list.
+appId: com.voodew.app
+---
+- launchApp
+- tapOn:
+    text: ".*"
+    index: 0
+
+- tapOn: "Reminders"
+- tapOn: "+ New Reminder"
+
+- tapOn: "Title"
+- inputText: "Maestro: check in for flight"
+
+# Date defaults to the trip's start date (already in the future) -- no
+# interaction needed. Time starts empty and is required, so the native time
+# picker has to be opened and confirmed; the exact confirm step is
+# platform-specific (Android's dialog vs. iOS's inline spinner + "Done"),
+# so this is left as a TODO to fill in against the target device rather
+# than guessed here.
+- tapOn: "Select a time"
+# TODO: confirm the native time picker for your platform, e.g.:
+#   iOS:     tapOn: "Done"
+#   Android: tapOn: "OK"
+- tapOn: "Create Reminder"
+
+- assertVisible: "Maestro: check in for flight"

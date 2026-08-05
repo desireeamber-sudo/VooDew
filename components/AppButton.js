@@ -12,7 +12,8 @@ export default function AppButton({
   variant = "primary", // "primary" | "secondary" | "danger"
   disabled = false,
   loading = false,
-  style
+  style,
+  testID
 }) {
   const isSecondary = variant === "secondary";
   const isDanger = variant === "danger";
@@ -20,6 +21,9 @@ export default function AppButton({
   return (
     <Pressable
       onPress={disabled || loading ? undefined : onPress}
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: disabled || loading }}
       style={({ pressed }) => [
         styles.base,
         isSecondary && styles.secondary,

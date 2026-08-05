@@ -147,6 +147,48 @@ export function combineDateAndTimeStrings(dateString, timeString) {
   return combined;
 }
 
+// ---------- Calendar-grid helpers (for the branded date picker) ----------
+// These back components/CalendarGrid.js. Kept here, alongside the rest of
+// the date logic, instead of inline in a component, so the month-matrix
+// math is unit-testable on its own and stays local-date-safe -- every cell
+// is built with the `new Date(year, month, day)` constructor form (local
+// time), never by parsing a string, so there's no UTC-shift risk here
+// either.
+
+/** Friendly "August 2026" label for a given (0-indexed) month. */
+export function getMonthLabel(year, month) {
+  return new Date(year, month, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" });
+}
+
+/**
+ * Builds a calendar grid for `month` (0-indexed) as an array of week rows,
+ * each with exactly 7 cells. Cells outside the month (padding before day 1
+ * or after the last day) are `null`; real days are
+ * `{ dateString: "YYYY-MM-DD", day: number }`.
+ */
+export function buildCalendarMonth(year, month) {
+  const firstOfMonth = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const startWeekday = firstOfMonth.getDay(); // 0 = Sunday
+
+  const cells = [];
+  for (let i = 0; i < startWeekday; i++) cells.push(null);
+  for (let day = 1; day <= daysInMonth; day++) {
+    cells.push({ dateString: localDateToDateString(new Date(year, month, day)), day });
+  }
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  const weeks = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return weeks;
+}
+
+/** Adds `delta` months (can be negative) to a { year, month } pair. */
+export function addMonths(year, month, delta) {
+  const date = new Date(year, month + delta, 1);
+  return { year: date.getFullYear(), month: date.getMonth() };
+}
+
 /**
  * Friendly "Today • 9:00 AM" / "Tomorrow • 5:30 PM" / "Jan 27 • 9:00 AM"
  * label for a real Date (e.g. `new Date(reminder.dateTime)`).

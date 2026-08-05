@@ -132,6 +132,10 @@ export default function RemindersScreen() {
       setErrors({ time: "Enter a valid date and time." });
       return;
     }
+    if (when.getTime() <= Date.now()) {
+      setErrors({ time: "Choose a date and time in the future." });
+      return;
+    }
 
     setSaving(true);
     try {
@@ -243,8 +247,8 @@ export default function RemindersScreen() {
                 placeholder="Any extra detail"
                 multiline
               />
-              <DateField label="Date" value={date} onChange={setDate} error={errors.date} />
-              <TimeField label="Time" value={time} onChange={setTime} error={errors.time} />
+              <DateField label="Date" value={date} onChange={setDate} error={errors.date} testID="reminder-date" />
+              <TimeField label="Time" value={time} onChange={setTime} error={errors.time} testID="reminder-time" />
 
               {checklist.length > 0 && (
                 <>
@@ -313,7 +317,14 @@ export default function RemindersScreen() {
                   selected={item.enabled}
                   onPress={() => handleToggleEnabled(item)}
                 />
-                <Pressable onPress={() => confirmDeleteReminder(item)} hitSlop={8} style={styles.reminderDeleteButton}>
+                <Pressable
+                  onPress={() => confirmDeleteReminder(item)}
+                  hitSlop={8}
+                  style={styles.reminderDeleteButton}
+                  testID={`reminder-delete-${item.id}`}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Delete reminder "${item.title}"`}
+                >
                   <Ionicons name="trash-outline" size={18} color={colors.darkGray} />
                 </Pressable>
               </View>

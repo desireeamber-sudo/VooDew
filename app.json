@@ -42,7 +42,14 @@
           "color": "#E91E63"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Trip VooDew uses your camera so you can take a cover photo for a trip.",
+          "photosPermission": "Trip VooDew uses your photo library so you can choose a cover photo for a trip."
+        }
+      ]
     ],
     "extra": {
       "router": {

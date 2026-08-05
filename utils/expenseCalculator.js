@@ -20,13 +20,20 @@ export function calculateShares(amount, splitTravelerIds) {
 }
 
 /**
- * Nets balances across a full list of trip expenses.
+ * Nets balances across a full list of trip expenses, then applies any
+ * recorded settlements (direct repayments between two travelers) on top.
  * Positive balance = this traveler is owed money overall.
  * Negative balance = this traveler owes money overall.
  * @param {Array} expenses - [{ amount, paidByTravelerId, splitTravelerIds }]
+ * @param {Array} [settlements] - [{ amount, paidByTravelerId, paidToTravelerId }]
+ *   -- e.g. "Boomer paid Des $100" reduces what Boomer owes (their balance
+ *   moves toward 0) and reduces what Des is owed (their balance moves
+ *   toward 0 too), the same way paying down any debt would. Settlements
+ *   never alter or remove the original expenses -- they're a separate,
+ *   additive adjustment.
  * @returns {Record<string, number>} travelerId -> net balance
  */
-export function calculateNetBalances(expenses) {
+export function calculateNetBalances(expenses, settlements = []) {
   const balances = {};
 
   const addBalance = (travelerId, delta) => {
@@ -43,6 +50,16 @@ export function calculateNetBalances(expenses) {
     // Everyone in the split owes their equal share.
     const shares = calculateShares(amount, splitTravelerIds);
     shares.forEach(({ travelerId, share }) => addBalance(travelerId, -share));
+  });
+
+  settlements.forEach((settlement) => {
+    const { amount, paidByTravelerId, paidToTravelerId } = settlement;
+    if (!amount || !paidByTravelerId || !paidToTravelerId) return;
+
+    // The payer has paid down that much of what they owed.
+    addBalance(paidByTravelerId, amount);
+    // The recipient has now collected that much of what they were owed.
+    addBalance(paidToTravelerId, -amount);
   });
 
   return balances;

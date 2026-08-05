@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Pressable } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet, ActivityIndicator, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../constants/colors";
@@ -33,9 +33,16 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View>
-          <Text style={styles.brand}>VooDew</Text>
-          <Text style={styles.tagline}>Your next event, organized.</Text>
+        <View style={styles.brandRow}>
+          <Image
+            source={require("../assets/images/icon.png")}
+            style={styles.logo}
+            accessibilityLabel="Trip VooDew logo"
+          />
+          <View>
+            <Text style={styles.brand}>VooDew</Text>
+            <Text style={styles.tagline}>Your next event, organized.</Text>
+          </View>
         </View>
         <Pressable style={styles.createButton} onPress={() => router.push("/trips/create")}>
           <Ionicons name="add" size={26} color={colors.white} />
@@ -78,6 +85,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12
   },
+  brandRow: { flexDirection: "row", alignItems: "center" },
+  logo: { width: 38, height: 38, borderRadius: 10, marginRight: 10 },
   brand: { ...typography.screenTitle, color: colors.primaryPink },
   tagline: { ...typography.body, color: colors.darkGray, marginTop: 2 },
   createButton: {

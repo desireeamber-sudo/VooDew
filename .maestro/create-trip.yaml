@@ -1,0 +1,27 @@
+# Maestro E2E smoke flow: create the first trip from a fresh (empty) Home
+# screen and confirm it lands on that trip's Dashboard.
+#
+# Not run in this environment -- there's no Android/iOS device or simulator
+# available in this sandbox. Run locally with `maestro test .maestro/create-trip.yaml`
+# after `expo run:android` / `expo run:ios`, against a real or test Firebase
+# project (Maestro drives the actual app UI, so this is the one layer that
+# DOES need a real backend -- unlike the Jest suite, which never does).
+appId: com.voodew.app
+---
+- launchApp
+- assertVisible: "VooDew"
+- assertVisible: "Create Trip"
+- tapOn: "Create Trip"
+
+- assertVisible: "Trip Title"
+- tapOn: "e.g. Karaoke Night Downtown"
+- inputText: "Maestro Smoke Test Trip"
+
+# Default Event Type (In-Town Concert) needs no transportation choice, and
+# Start Date already defaults to today -- so the trip is saveable as-is.
+- tapOn: "Create Trip"
+
+# Lands on the new trip's Dashboard.
+- assertVisible: "Maestro Smoke Test Trip"
+- assertVisible: "Manage Trip"
+- assertVisible: "Checklist"

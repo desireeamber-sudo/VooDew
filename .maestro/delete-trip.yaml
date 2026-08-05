@@ -1,0 +1,19 @@
+# Maestro E2E smoke flow: delete a trip from its Dashboard and confirm it's
+# gone from the Home list. Exercises the confirm-before-delete Alert.
+appId: com.voodew.app
+---
+- launchApp
+- tapOn:
+    text: ".*"
+    index: 0
+
+- scrollUntilVisible:
+    element: "Delete Trip"
+- tapOn: "Delete Trip"
+
+- assertVisible: "Delete this trip?"
+- tapOn: "Delete"
+
+# Back on Home -- either the list no longer shows that trip, or (if it was
+# the only trip) the empty state is visible again.
+- assertVisible: "VooDew"

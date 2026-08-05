@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Alert, Pressable } from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator, Alert, Pressable } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../../../constants/colors";
@@ -13,6 +13,7 @@ import {
   deleteTrip
 } from "../../../services/tripService";
 import { cancelLocalReminder } from "../../../services/notificationService";
+import { deleteCoverPhoto } from "../../../services/imageService";
 import DashboardCard from "../../../components/DashboardCard";
 
 // Trip Dashboard: hero card, progress card, quick action grid, and an
@@ -54,6 +55,9 @@ export default function TripDashboardScreen() {
           // exists in the app.
           await Promise.all(reminders.map((r) => cancelLocalReminder(r.osIdentifier)));
           await deleteTrip(tripId);
+          // Best-effort: remove the locally stored cover photo too, if
+          // this trip had one. Never blocks navigation on failure.
+          await deleteCoverPhoto(trip.coverPhotoUri);
           router.replace("/");
         }
       }
@@ -88,6 +92,14 @@ export default function TripDashboardScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <DashboardCard>
+        {trip.coverPhotoUri ? (
+          <Image
+            source={{ uri: trip.coverPhotoUri }}
+            style={styles.coverPhoto}
+            accessibilityLabel="Trip cover photo"
+            testID="trip-cover-photo"
+          />
+        ) : null}
         <View style={styles.heroTop}>
           <Text style={styles.heroTitle}>{trip.title}</Text>
           <Pressable onPress={() => router.push(`/trips/create?editId=${tripId}`)} hitSlop={8}>
@@ -154,6 +166,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.lightGray },
   loadingContainer: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.lightGray },
   content: { padding: 20, paddingBottom: 60 },
+  coverPhoto: { width: "100%", height: 160, borderRadius: 14, marginBottom: 12, backgroundColor: colors.lightGray },
   heroTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   heroTitle: { ...typography.screenTitle, fontSize: 24, color: colors.black, flex: 1, marginRight: 8 },
   heroMeta: { ...typography.body, color: colors.darkGray, marginTop: 4 },

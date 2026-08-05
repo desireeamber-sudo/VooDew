@@ -23,18 +23,29 @@ import {
   subscribeToTravelers,
   createTraveler
 } from "../../services/tripService";
+import { deleteCoverPhoto } from "../../services/imageService";
 import AppInput from "../../components/AppInput";
 import AppButton from "../../components/AppButton";
 import Chip from "../../components/Chip";
 import DateField from "../../components/DateField";
 import PlaceSearchField from "../../components/PlaceSearchField";
+import CoverPhotoField from "../../components/CoverPhotoField";
 
 // Requirement 6: the venue/location field's label (and whether it's framed
-// as optional) depends on event type.
+// as optional) depends on event type. For cruises specifically, the search
+// field is the departure PORT/TERMINAL, never "the venue" -- the cruise
+// itself isn't a venue, and the terminal isn't always known/needed.
 function getLocationFieldLabel(eventType) {
   if (eventType === "cruise") return "Departure Port or Terminal (optional)";
   if (eventType === "custom") return "Location";
   return "Venue or Event Location";
+}
+
+// "Destination" reads oddly for a cruise -- the ship goes many places, and
+// what the traveler actually needs to record is where they leave FROM.
+function getDestinationFieldLabel(eventType) {
+  if (eventType === "cruise") return "Departure City / Port";
+  return "Destination";
 }
 
 // travelRequired is derived from event type for "never"/"always"/"cruise"
@@ -64,6 +75,14 @@ export default function CreateTripScreen() {
   const [errors, setErrors] = useState({});
 
   const [title, setTitle] = useState("");
+  // Optional cover photo. `coverPhotoUri` is what gets saved on the trip;
+  // `originalCoverPhotoUri` tracks whatever was already saved when an
+  // existing trip was loaded (null for a new trip), so a successful save
+  // can clean up an old persisted file that got replaced or removed --
+  // never delete it before the save that actually drops the reference to
+  // it has succeeded.
+  const [coverPhotoUri, setCoverPhotoUri] = useState(null);
+  const [originalCoverPhotoUri, setOriginalCoverPhotoUri] = useState(null);
   const [eventType, setEventType] = useState("inTownConcert");
   const [travelRequired, setTravelRequired] = useState(false);
   const [travelMode, setTravelMode] = useState(null);
@@ -73,6 +92,10 @@ export default function CreateTripScreen() {
   const [startDate, setStartDate] = useState(getTodayDateString());
   const [endDate, setEndDate] = useState("");
   const [destination, setDestination] = useState("");
+  // Cruise-only, optional. Kept as plain text -- there's no useful
+  // search/autocomplete source for cruise line or ship name.
+  const [cruiseLine, setCruiseLine] = useState("");
+  const [shipName, setShipName] = useState("");
   const [venue, setVenue] = useState("");
   const [address, setAddress] = useState("");
   // Set directly from a selected Places search result so the Map screen
@@ -117,6 +140,10 @@ export default function CreateTripScreen() {
         setStartDate(trip.startDate || "");
         setEndDate(trip.endDate || "");
         setDestination(trip.destination || "");
+        setCoverPhotoUri(trip.coverPhotoUri || null);
+        setOriginalCoverPhotoUri(trip.coverPhotoUri || null);
+        setCruiseLine(trip.cruiseLine || "");
+        setShipName(trip.shipName || "");
         setVenue(trip.venue || "");
         setAddress(trip.address || "");
         setLatitude(trip.latitude ?? null);
@@ -196,6 +223,9 @@ export default function CreateTripScreen() {
       startDate,
       endDate: endDate || startDate,
       destination: destination.trim(),
+      coverPhotoUri: coverPhotoUri || null,
+      cruiseLine: eventType === "cruise" ? cruiseLine.trim() : "",
+      shipName: eventType === "cruise" ? shipName.trim() : "",
       venue: venue.trim(),
       address: address.trim(),
       latitude,
@@ -209,6 +239,13 @@ export default function CreateTripScreen() {
     try {
       if (isEditing) {
         await updateTrip(editId, tripData);
+        // Best-effort cleanup: only once the save that dropped the old
+        // reference has actually succeeded, and only for a file this
+        // screen itself persisted (never touch a fresh uri from the same
+        // session that's still in use).
+        if (originalCoverPhotoUri && originalCoverPhotoUri !== coverPhotoUri) {
+          await deleteCoverPhoto(originalCoverPhotoUri);
+        }
         router.replace(`/trips/${editId}`);
       } else {
         const newId = await createTrip(tripData);
@@ -233,6 +270,8 @@ export default function CreateTripScreen() {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <AppInput label="Trip Title" value={title} onChangeText={setTitle} placeholder="e.g. Karaoke Night Downtown" error={errors.title} />
+
+        <CoverPhotoField uri={coverPhotoUri} onChange={setCoverPhotoUri} testID="cover-photo" />
 
         <Text style={styles.sectionLabel}>Event Type</Text>
         <View style={styles.chipRow}>
@@ -280,7 +319,13 @@ export default function CreateTripScreen() {
           </>
         )}
 
-        <DateField label="Start Date" value={startDate} onChange={handleStartDateChange} error={errors.startDate} />
+        <DateField
+          label="Start Date"
+          value={startDate}
+          onChange={handleStartDateChange}
+          error={errors.startDate}
+          testID="start-date"
+        />
         <DateField
           label="End Date (optional -- defaults to start date)"
           value={endDate}
@@ -289,8 +334,21 @@ export default function CreateTripScreen() {
           minimumDate={startDate}
           placeholder="Same as start date"
           error={errors.endDate}
+          testID="end-date"
         />
-        <AppInput label="Destination" value={destination} onChangeText={setDestination} placeholder="e.g. Nashville, TN" />
+        <AppInput
+          label={getDestinationFieldLabel(eventType)}
+          value={destination}
+          onChangeText={setDestination}
+          placeholder={eventType === "cruise" ? "e.g. Miami, FL" : "e.g. Nashville, TN"}
+        />
+
+        {eventType === "cruise" && (
+          <>
+            <AppInput label="Cruise Line (optional)" value={cruiseLine} onChangeText={setCruiseLine} placeholder="e.g. Royal Caribbean" />
+            <AppInput label="Ship Name (optional)" value={shipName} onChangeText={setShipName} placeholder="e.g. Wonder of the Seas" />
+          </>
+        )}
 
         {useManualLocation ? (
           <>

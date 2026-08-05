@@ -145,28 +145,30 @@ export default function ChecklistScreen() {
             }
 
             const linkedReminder = reminderByItemId[item.id];
+            // Reminders are opt-in: the row's bell icon (below) is always
+            // there to set one, but a "Set reminder..." call-to-action isn't
+            // shown under every item by default -- only items that already
+            // HAVE a reminder get a footer, and it's just a concise summary.
             return (
               <ChecklistRow
                 item={item}
                 onToggle={() => handleToggleItem(item)}
                 onEdit={() => startEditing(item)}
                 onDelete={() => confirmDeleteItem(item)}
+                hasReminder={Boolean(linkedReminder)}
+                onReminderPress={() =>
+                  linkedReminder
+                    ? router.push(`/trips/${tripId}/reminders`)
+                    : router.push(`/trips/${tripId}/reminders?linkItemId=${item.id}&linkItemTitle=${encodeURIComponent(item.title)}`)
+                }
                 footer={
                   linkedReminder ? (
                     <Pressable onPress={() => router.push(`/trips/${tripId}/reminders`)}>
                       <Text style={styles.reminderSetText}>
-                        Reminder set for {formatReminderWhen(new Date(linkedReminder.dateTime))}
+                        Reminder: {formatReminderWhen(new Date(linkedReminder.dateTime))}
                       </Text>
                     </Pressable>
-                  ) : (
-                    <Pressable
-                      onPress={() =>
-                        router.push(`/trips/${tripId}/reminders?linkItemId=${item.id}&linkItemTitle=${encodeURIComponent(item.title)}`)
-                      }
-                    >
-                      <Text style={styles.setReminderText}>Set reminder...</Text>
-                    </Pressable>
-                  )
+                  ) : null
                 }
               />
             );
@@ -187,6 +189,5 @@ const styles = StyleSheet.create({
   list: { paddingBottom: 40 },
   editRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: 8 },
   editSaveButton: { marginLeft: 10, marginTop: 2, minWidth: 70 },
-  setReminderText: { ...typography.caption, color: colors.primaryPink },
   reminderSetText: { ...typography.caption, color: colors.darkGray }
 });

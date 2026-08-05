@@ -39,16 +39,24 @@ const BASE_TEMPLATES = {
     "Get directions",
     "Set departure reminder"
   ],
+  // Approved cruise checklist order -- fixed, does not vary by travel mode.
+  // "Book travel to/from departure city" and "Arrange transportation to/from
+  // cruise port" already cover getting there without needing separate
+  // driving/flying/other phrasing.
   cruise: [
-    "Complete cruise check-in",
-    "Verify identification/passport",
-    "Save cruise documents",
-    "Print or save luggage tags",
-    "Book pre-cruise travel",
+    "Book cruise",
+    "Verify identification/passport requirements",
+    "Book travel to/from departure city",
     "Book hotel if needed",
-    "Arrange port transportation",
-    "Review excursions",
-    "Pack medications",
+    "Book drink/dining packages",
+    "Review/book excursions",
+    "Complete cruise check-in",
+    "Save/print cruise documents",
+    "Save/print luggage tags",
+    "Arrange transportation to/from cruise port",
+    "Pack for cruise",
+    "Confirm embarkation details",
+    "Confirm disembarkation details",
     "Set boarding reminder"
   ],
   custom: [
@@ -98,16 +106,6 @@ const TRAVEL_TEMPLATES = {
   ]
 };
 
-// Small additions layered onto the cruise base checklist depending on how
-// the traveler is getting to the departure city -- not a full duplicate of
-// TRAVEL_TEMPLATES, since cruise-specific items like "Book hotel if needed"
-// and "Arrange port transportation" are already covered by BASE_TEMPLATES.cruise.
-const CRUISE_TRAVEL_ADDONS = {
-  driving: ["Plan driving route to departure port", "Check vehicle and fuel before departure"],
-  flying: ["Book flight to departure city", "Check in for flight", "Save boarding pass link"],
-  other: ["Plan transportation to the departure port"]
-};
-
 function finalize(items) {
   return items.map((item, index) => ({
     ...item,
@@ -126,11 +124,8 @@ function finalize(items) {
  */
 export function generateChecklist(eventType, travelRequired, travelMode) {
   if (eventType === "cruise") {
-    const base = BASE_TEMPLATES.cruise.map((title) => ({ title, category: "cruise" }));
-    const addons = (travelMode && CRUISE_TRAVEL_ADDONS[travelMode] ? CRUISE_TRAVEL_ADDONS[travelMode] : []).map(
-      (title) => ({ title, category: "travel" })
-    );
-    return finalize([...base, ...addons]);
+    // Fixed, approved order -- intentionally ignores travelMode.
+    return finalize(BASE_TEMPLATES.cruise.map((title) => ({ title, category: "cruise" })));
   }
 
   if (!travelRequired) {

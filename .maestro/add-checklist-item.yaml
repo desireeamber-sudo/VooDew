@@ -1,0 +1,18 @@
+# Maestro E2E smoke flow: open an existing trip's Checklist and add a
+# custom item. Assumes at least one trip already exists (run
+# create-trip.yaml first, or point this at a seeded test project).
+appId: com.voodew.app
+---
+- launchApp
+- tapOn:
+    text: ".*" # first trip card on the Home list
+    index: 0
+
+- tapOn: "Checklist"
+- assertVisible: "item(s)? left"
+
+- tapOn: "Add a checklist item"
+- inputText: "Maestro: pack sunscreen"
+- tapOn: "Add"
+
+- assertVisible: "Maestro: pack sunscreen"

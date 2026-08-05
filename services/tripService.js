@@ -104,6 +104,7 @@ export async function deleteTrip(tripId) {
     deleteAllInSubcollection(tripId, "checklistItems"),
     deleteAllInSubcollection(tripId, "reservationLinks"),
     deleteAllInSubcollection(tripId, "expenses"),
+    deleteAllInSubcollection(tripId, "settlements"),
     deleteAllInSubcollection(tripId, "reminders")
   ]);
   await deleteDoc(doc(db, "trips", tripId));
@@ -196,6 +197,19 @@ export const updateExpense = (tripId, expenseId, updates) =>
 
 export const deleteExpense = (tripId, expenseId) =>
   deleteDoc(doc(db, "trips", tripId, "expenses", expenseId));
+
+// Settlements (direct repayments between two travelers, e.g. "Boomer paid
+// Des $100" -- recorded separately from expenses so the original expenses
+// are never altered; utils/expenseCalculator.js's calculateNetBalances
+// applies these on top of the expense-derived balances)
+export const subscribeToSettlements = (tripId, onChange, onError) =>
+  subscribeToSubcollection(tripId, "settlements", onChange, onError, null);
+
+export const addSettlement = (tripId, settlement) =>
+  addDoc(subRef(tripId, "settlements"), { ...settlement, createdAt: serverTimestamp() });
+
+export const deleteSettlement = (tripId, settlementId) =>
+  deleteDoc(doc(db, "trips", tripId, "settlements", settlementId));
 
 // Reminders (user-created, optionally linked to a checklist item; kept in
 // sync with the device's scheduled notifications by the screens that call

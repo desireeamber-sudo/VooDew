@@ -4,9 +4,15 @@ import { colors } from "../constants/colors";
 import { typography } from "../constants/typography";
 
 // Small selectable pill used for event type / travel mode pickers.
-export default function Chip({ label, selected, onPress }) {
+export default function Chip({ label, selected, onPress, testID }) {
   return (
-    <Pressable onPress={onPress} style={[styles.chip, selected && styles.chipSelected]}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.chip, selected && styles.chipSelected]}
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityState={{ selected: Boolean(selected) }}
+    >
       <Text style={[styles.label, selected && styles.labelSelected]}>{label}</Text>
     </Pressable>
   );
